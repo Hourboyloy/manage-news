@@ -18,7 +18,7 @@ const AuthLayout = () => {
         </div>
       )}
       <main className="">
-        <Outlet />
+        <Outlet/>
       </main>
     </div>
   );

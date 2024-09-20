@@ -8,6 +8,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { FaThumbsUp, FaThumbsDown, FaCommentDots } from "react-icons/fa";
 
 const ManageNews = () => {
   const [FecthData, setFecthData] = useState([]);
@@ -286,7 +287,7 @@ const ManageNews = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:hidden sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:hidden sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
             {DataPagenation?.length > 0 &&
               DataPagenation.map((e, i) => (
                 <Link
@@ -326,6 +327,7 @@ const ManageNews = () => {
                       </div>
                     </div>
                   </div>
+
                   <div className="p-4">
                     <div className="flex items-center mb-2">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden mr-3 text">
@@ -339,14 +341,90 @@ const ManageNews = () => {
                         {e.title}
                       </h3>
                     </div>
-                    <p className="text-gray-700 mt-2 truncate">
+                    <p className="text-gray-700 mt-2 truncate text-wrap">
                       {e.description.length > 100
-                        ? `${e.description.slice(0, 100)}...`
+                        ? `${e.description.slice(0, 250)}...`
                         : e.description}
                     </p>
                     <p className="text-gray-500 text-sm mt-2">
                       {e.createdAt.split("T")[0]}
                     </p>
+
+                    <div className="text-gray-600 mt-2 space-y-4 flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div>
+                          {e.likes < 1000 ? (
+                            <div className="flex items-center space-x-2 text-nowrap">
+                              <FaThumbsUp className="text-blue-600" />
+                              <p className="flex items-center">
+                                <span>{e.likes}</span>{" "}
+                                <span className=" lg:block hidden">Likes</span>{" "}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="flex items-center space-x-2 text-nowrap">
+                              <FaThumbsUp className="text-blue-600" />
+                              <p className="flex items-center">
+                                <span>{(e.likes / 1000).toFixed(1)}</span>{" "}
+                                <span className=" lg:block hidden">Likes</span>{" "}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        <div>
+                          {e.noLikes < 1000 ? (
+                            <div className="flex items-center space-x-2 text-nowrap">
+                              <FaThumbsDown className="text-red-600" />
+                              <p className="flex items-center">
+                                <span>{e.noLikes}</span>
+                                <span className="lg:block hidden">
+                                  Dislikes
+                                </span>{" "}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="flex items-center space-x-2 text-nowrap">
+                              <FaThumbsDown className="text-red-600" />
+                              <p className="flex items-center">
+                                <span>{e.noLikes.toFixed(1)}</span>
+                                <span className="lg:block hidden">
+                                  Dislikes
+                                </span>{" "}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        <div>
+                          {e.commant < 1000 ? (
+                            <div className="flex items-center space-x-2 text-nowrap">
+                              <FaCommentDots className="text-green-600" />
+                              <p className="flex items-center">
+                                <span>{e.commant}</span>
+                                <span className="lg:block hidden">
+                                  Comments
+                                </span>{" "}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="flex items-center space-x-2 text-nowrap">
+                              <FaCommentDots className="text-green-600" />
+                              <p className="flex items-center">
+                                <span>{(e.commant).toFixed(1)}</span>
+                                <span className="lg:block hidden">
+                                  Comments
+                                </span>{" "}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="">
+                        {e.trending ? <p>Tranding</p> : ""}
+                      </div>
+                    </div>
                   </div>
                 </Link>
               ))}
