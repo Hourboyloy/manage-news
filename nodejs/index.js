@@ -10,7 +10,7 @@ const background_route = require("./src/route/background.route");
 
 app.use(
   cors({
-    origin: "https://client-delta-indol.vercel.app",
+    origin: "https://manage-news-client134.vercel.app",
     methods: "GET,POST,DELETE,PUT",
   })
 );
