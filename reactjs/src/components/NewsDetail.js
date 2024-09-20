@@ -117,7 +117,7 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
                       <div className="flex items-center space-x-2 text-nowrap">
                         <FaThumbsDown className="text-red-600" />
                         <p className="flex items-center">
-                          <span>{data.noLikes.toFixed(1)}</span>
+                          <span>{(data.noLikes/1000).toFixed(1)}</span>
                           <span className="lg:block hidden">Dislikes</span>{" "}
                         </p>
                       </div>
@@ -137,7 +137,7 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
                       <div className="flex items-center space-x-2 text-nowrap">
                         <FaCommentDots className="text-green-600" />
                         <p className="flex items-center">
-                          <span>{data.commant.toFixed(1)}</span>
+                          <span>{(data.commant/1000).toFixed(1)}</span>
                           <span className="lg:block hidden">Comments</span>{" "}
                         </p>
                       </div>

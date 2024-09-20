@@ -288,8 +288,8 @@ const ManageNews = () => {
           </div>
 
           <div className="grid grid-cols-1 md:hidden sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-            {DataPagenation?.length > 0 &&
-              DataPagenation.map((e, i) => (
+            {FecthData?.length > 0 &&
+              FecthData.map((e, i) => (
                 <Link
                   to={`/details/${e._id}`}
                   key={e._id}
@@ -387,7 +387,7 @@ const ManageNews = () => {
                             <div className="flex items-center space-x-2 text-nowrap">
                               <FaThumbsDown className="text-red-600" />
                               <p className="flex items-center">
-                                <span>{e.noLikes.toFixed(1)}</span>
+                                <span>{(e.noLikes / 1000).toFixed(1)}</span>
                                 <span className="lg:block hidden">
                                   Dislikes
                                 </span>{" "}
@@ -411,7 +411,7 @@ const ManageNews = () => {
                             <div className="flex items-center space-x-2 text-nowrap">
                               <FaCommentDots className="text-green-600" />
                               <p className="flex items-center">
-                                <span>{(e.commant).toFixed(1)}</span>
+                                <span>{(e.commant / 1000).toFixed(1)}</span>
                                 <span className="lg:block hidden">
                                   Comments
                                 </span>{" "}
