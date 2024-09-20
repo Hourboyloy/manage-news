@@ -11,7 +11,7 @@ function Details() {
   const [data, setData] = useState();
   const handleGetbyID = useCallback(async () => {
     try {
-      const res = await axios.get(`http://localhost:5051/getone/${id}`);
+      const res = await axios.get(`https://manage-news-server134.vercel.app/getone/${id}`);
       setData(res.data.news);
     } catch (e) {
       console.error(e);
@@ -33,7 +33,7 @@ function Details() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5051/remove-news/${id}`, // URL with item ID
+        `https://manage-news-server134.vercel.app/remove-news/${id}`, // URL with item ID
         {
           headers: {
             Authorization: `Bearer ${adminToken}`, // Add token to headers

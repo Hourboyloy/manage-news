@@ -15,7 +15,7 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true); // Set loading to true when the request starts
     try {
-      const response = await axios.post("http://localhost:5051/login", {
+      const response = await axios.post("https://manage-news-server134.vercel.app/login", {
         email,
         password,
       });

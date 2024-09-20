@@ -58,7 +58,7 @@ useEffect(() => {
 
   const handleFetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:5051/get-all");
+      const response = await axios.get("https://manage-news-server134.vercel.app/get-all");
       setFecthData(response.data.news);
       if (response.data.status === 200) {
         setToggleLoading(true);
@@ -107,7 +107,7 @@ useEffect(() => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5051/remove-news/${itemId}`, // URL with item ID
+        `https://manage-news-server134.vercel.app/remove-news/${itemId}`, // URL with item ID
         {
           headers: {
             Authorization: `Bearer ${adminToken}`, // Add token to headers

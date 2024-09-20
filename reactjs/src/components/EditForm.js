@@ -85,7 +85,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
 
     setIsSubmitting(true);
     try {
-      await axios.put(`http://localhost:5051/edit-news/${id}`, formDataToSend, {
+      await axios.put(`https://manage-news-server134.vercel.app/edit-news/${id}`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("admin_access_token")}`,

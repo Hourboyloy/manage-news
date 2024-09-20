@@ -14,7 +14,7 @@ function Background() {
   const handleFetchDataBG = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5051/background-getAll"
+        "https://manage-news-server134.vercel.app/background-getAll"
       );
       setBG(response.data);
       if (response.status === 200) {
@@ -32,7 +32,7 @@ function Background() {
   const handleGetImageById = async (imageId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5051/background-get/${imageId}`,
+        `https://manage-news-server134.vercel.app/background-get/${imageId}`,
         {
           // headers: {
           //   Authorization: `Bearer ${localStorage.getItem(
@@ -57,7 +57,7 @@ function Background() {
   const handleDeleteImageById = async (imageId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5051/background-remove/${imageId}`,
+        `https://manage-news-server134.vercel.app/background-remove/${imageId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem(
@@ -104,7 +104,7 @@ function Background() {
     try {
       // Send a POST request to the server using axios
       const response = await axios.post(
-        "http://localhost:5051/upload-bg",
+        "https://manage-news-server134.vercel.app/upload-bg",
         formData,
         {
           headers: {

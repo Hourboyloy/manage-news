@@ -72,7 +72,7 @@
 
 //     try {
 //       // Make the POST request with the admin token
-//       const response = await fetch("http://localhost:5051/upload-news", {
+//       const response = await fetch("https://manage-news-server134.vercel.app/upload-news", {
 //         method: "POST",
 //         headers: {
 //           Authorization: `Bearer ${Admin_access_token()}`,
@@ -386,7 +386,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     }
     try {
       // Make the POST request with the admin token
-      const response = await fetch("http://localhost:5051/upload-news", {
+      const response = await fetch("https://manage-news-server134.vercel.app/upload-news", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${Admin_access_token()}`,
