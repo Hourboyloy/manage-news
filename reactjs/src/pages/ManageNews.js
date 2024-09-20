@@ -9,7 +9,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-
 const ManageNews = () => {
   const [FecthData, setFecthData] = useState([]);
   const [toggleLoading, setToggleLoading] = useState(false);
@@ -28,37 +27,35 @@ const ManageNews = () => {
     return JSON.parse(localStorage.getItem("listIndex")) || 1; // Initialize from localStorage
   });
 
+  useEffect(() => {
+    localStorage.setItem("startData", JSON.stringify(startData));
+    localStorage.setItem("stopData", JSON.stringify(stopData));
+    localStorage.setItem("index", JSON.stringify(index));
+    localStorage.setItem("listIndex", JSON.stringify(listIndex));
+  }, [startData, stopData, index, listIndex]);
 
-   useEffect(() => {
-     localStorage.setItem("startData", JSON.stringify(startData));
-     localStorage.setItem("stopData", JSON.stringify(stopData));
-     localStorage.setItem("index", JSON.stringify(index));
-     localStorage.setItem("listIndex", JSON.stringify(listIndex));
-   }, [startData, stopData, index, listIndex]);
-
-useEffect(() => {
-  const handleBeforeUnload = (event) => {
-    const newStartData = 0;
-    const newStopData = 9;
-    const newIndex = 0;
-    const newListIndex = 1;
-     localStorage.setItem("startData", JSON.stringify(newStartData));
-     localStorage.setItem("stopData", JSON.stringify(newStopData));
-     localStorage.setItem("index", JSON.stringify(newIndex));
-     localStorage.setItem("listIndex", JSON.stringify(newListIndex));
-  };
-  window.addEventListener("beforeunload", handleBeforeUnload);
-  return () => {
-    window.removeEventListener("beforeunload", handleBeforeUnload);
-  };
-}, []);
-
-
-
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      const newStartData = 0;
+      const newStopData = 9;
+      const newIndex = 0;
+      const newListIndex = 1;
+      localStorage.setItem("startData", JSON.stringify(newStartData));
+      localStorage.setItem("stopData", JSON.stringify(newStopData));
+      localStorage.setItem("index", JSON.stringify(newIndex));
+      localStorage.setItem("listIndex", JSON.stringify(newListIndex));
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const handleFetchData = async () => {
     try {
-      const response = await axios.get("https://manage-news-server134.vercel.app/get-all");
+      const response = await axios.get(
+        "https://manage-news-server134.vercel.app/get-all"
+      );
       setFecthData(response.data.news);
       if (response.data.status === 200) {
         setToggleLoading(true);
@@ -117,28 +114,30 @@ useEffect(() => {
 
       if (response.status === 200) {
         setMessage("News item deleted successfully.");
+        alert(message);
         handleFetchData();
       } else {
         setMessage("Failed to delete the news item.");
+        alert(message);
       }
     } catch (error) {
-      console.error("Error deleting the item", error);
       setMessage("Error deleting the item. Please try again.");
+      alert(message);
     }
   };
 
   return (
     <div className="">
       {toggleLoading ? (
-        <div className="p-6 max-w-[1180px] mx-auto">
-          <div className=" sticky md:static left-0 pl-4 md:pl-0 overflow-hidden md:overflow-visible z-10 md:h-auto h-10 top-24 w-full md:w-auto md:flex items-center justify-between pr-2 pb-5">
+        <div className="py-6 px-4 md:p-6 max-w-[1180px] mx-auto">
+          <div className=" sticky md:static left-0 md:pl-0 overflow-hidden md:overflow-visible z-10 md:h-auto h-10 top-24 w-full md:w-auto md:flex items-center justify-between pr-2 pb-5">
             <div className="flex items-center space-x-2 text-sm md:text-base">
               <p className="font-bold text-white">
                 All News, {FecthData.length} Results
               </p>
               <Link
                 to={`/upload`}
-                className="focus:outline-none select-none bg-[#14A4E3] text-white font-semibold rounded md:px-2.5 px-2 py-1 flex items-center justify-center space-x-1"
+                className="focus:outline-none select-none bg-[#14A4E3] text-white font-semibold rounded md:px-2.5 px-2.5 py-1 flex items-center justify-center space-x-1"
               >
                 <FaPlusCircle className="text-sm" /> <span>Add</span>
               </Link>
@@ -287,7 +286,7 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:hidden sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+          <div className="grid grid-cols-1 md:hidden sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {DataPagenation?.length > 0 &&
               DataPagenation.map((e, i) => (
                 <Link

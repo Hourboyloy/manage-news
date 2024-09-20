@@ -85,21 +85,30 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2 text-nowrap">
                     <FaThumbsUp className="text-blue-600" />
-                    <span className="">{data.likes} Likes</span>
+                    <p className="flex items-center">
+                      <span>{data.likes}</span>{" "}
+                      <span className=" lg:block hidden">Likes</span>{" "}
+                    </p>
                   </div>
                   <div className="flex items-center space-x-2 text-nowrap">
                     <FaThumbsDown className="text-red-600" />
-                    <span className="">{data.noLikes} Dislikes</span>
+                    <p className="flex items-center">
+                      <span>{data.noLikes}</span>
+                      <span className="lg:block hidden">Dislikes</span>{" "}
+                    </p>
                   </div>
                   <div className="flex items-center space-x-2 text-nowrap">
                     <FaCommentDots className="text-green-600" />
-                    <span className="">{data.commant} Comments</span>
+                    <p className="flex items-center">
+                      <span>{data.commant}</span>
+                      <span className="lg:block hidden">Comments</span>{" "}
+                    </p>
                   </div>
                 </div>
                 <div className="">{data.trending ? <p>Tranding</p> : ""}</div>
               </div>
 
-              <div className="flex justify-between items-center text-gray-500 text-sm">
+              <div className="flex md:flex-row flex-col space-y-3 md:space-y-0 md:justify-between md:items-center text-gray-500 text-sm">
                 <div>
                   <strong>Created At:</strong>{" "}
                   {new Date(data.createdAt).toLocaleDateString()}

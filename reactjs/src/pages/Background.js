@@ -21,7 +21,7 @@ function Background() {
         setLoader(true);
       }
     } catch (error) {
-      console.log(error);
+      alert("Error:can't accesss data");
     }
   };
 
@@ -41,7 +41,7 @@ function Background() {
           // },
         }
       );
-      console.log("Image retrieved successfully:");
+      alert("Image retrieved successfully");
       if (response) {
         localStorage.setItem("background", JSON.stringify(response.data));
         if (Setbg() !== null) {
@@ -49,7 +49,7 @@ function Background() {
         }
       }
     } catch (error) {
-      console.error("Error retrieving image:", error);
+      alert("Error retrieving image");
       throw error;
     }
   };
@@ -66,7 +66,7 @@ function Background() {
           },
         }
       );
-      console.log("Image deleted successfully:", response.data);
+      alert("Image deleted successfully");
       if (response) {
         if (id_bg() === imageId) {
           // Creating a fake object
@@ -88,7 +88,7 @@ function Background() {
       handleFetchDataBG();
       return response.data;
     } catch (error) {
-      console.error("Error deleting image:", error);
+      alert("Error deleting image:");
       throw error;
     }
   };
@@ -114,11 +114,11 @@ function Background() {
           },
         }
       );
-      if (response.status === 20) {
-        console.log("Image uploaded successfully:");
+      if (response.status === 200) {
+        alert("Image uploaded successfully");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error uploading image");
     }
   };
   return (
