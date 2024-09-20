@@ -343,14 +343,14 @@ const ManageNews = () => {
                     </div>
                     <p className="text-gray-700 mt-2 truncate text-wrap">
                       {e.description.length > 100
-                        ? `${e.description.slice(0, 250)}...`
+                        ? `${e.description.slice(0, 140)}...`
                         : e.description}
                     </p>
                     <p className="text-gray-500 text-sm mt-2">
                       {e.createdAt.split("T")[0]}
                     </p>
 
-                    <div className="text-gray-600 mt-2 space-y-4 flex items-center justify-between">
+                    <div className="text-gray-600 mt-2 flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div>
                           {e.likes < 1000 ? (

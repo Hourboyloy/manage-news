@@ -82,7 +82,7 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
               </div>
 
               <div className="text-gray-600 mb-4 space-y-4">
-                
+
                 <div className="flex items-center space-x-4">
                   <div>
                     {data.likes < 1000 ? (
