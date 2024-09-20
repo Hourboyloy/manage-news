@@ -12,7 +12,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
     description: "",
     likes: "",
     noLikes: "",
-    comments: "",
+    commant: "",
     trending: "0",
     logo: null,
     photo: null,
@@ -60,8 +60,8 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
       newErrors.likes = "Likes must be a number";
     if (!formData.noLikes || isNaN(formData.noLikes))
       newErrors.noLikes = "No Likes must be a number";
-    if (!formData.comments || isNaN(formData.comments))
-      newErrors.comments = "Comments must be a number";
+    if (!formData.commant || isNaN(formData.commant))
+      newErrors.commant = "commant must be a number";
     return newErrors;
   };
 
@@ -85,12 +85,18 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
 
     setIsSubmitting(true);
     try {
-      await axios.put(`https://manage-news-server134.vercel.app/edit-news/${id}`, formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("admin_access_token")}`,
-        },
-      });
+      await axios.put(
+        `https://manage-news-server134.vercel.app/edit-news/${id}`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem(
+              "admin_access_token"
+            )}`,
+          },
+        }
+      );
       alert("Form submitted successfully!");
       navigate(`/details/${id}`);
     } catch (error) {
@@ -232,29 +238,28 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
             )}
           </div>
 
-          {/* Comments */}
+          {/* commants */}
           <div className="relative">
             <label
-              htmlFor="comments"
+              htmlFor="commant"
               className="block text-sm font-medium text-gray-800"
             >
-              Comments <span className="text-red-500">*</span>
+              Commants <span className="text-red-500">*</span>
             </label>
             <input
-              id="comments"
-              name="comments"
+              id="commant"
+              name="commant"
               type="number"
-              value={formData.comments}
+              value={formData.commant}
               onChange={handleChange}
               className={`mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 ${
-                errors.comments ? "border-red-500" : "border-gray-300"
+                errors.commant ? "border-red-500" : "border-gray-300"
               } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
-              placeholder="Enter comments"
+              placeholder="Enter commant"
             />
-            {errors.comments && (
+            {errors.commant && (
               <p className="text-red-500 text-sm mt-1">
-                <FiAlertCircle className="inline-block mr-1" />{" "}
-                {errors.comments}
+                <FiAlertCircle className="inline-block mr-1" /> {errors.commant}
               </p>
             )}
           </div>

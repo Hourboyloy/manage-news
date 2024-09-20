@@ -19,7 +19,7 @@
 //     description: "",
 //     likes: 0,
 //     noLikes: 0,
-//     comments: 0,
+//     commant: 0,
 //     trending: 0,
 //   });
 
@@ -67,7 +67,7 @@
 //     dataToSubmit.append("description", formData.description);
 //     dataToSubmit.append("likes", formData.likes);
 //     dataToSubmit.append("noLikes", formData.noLikes);
-//     dataToSubmit.append("comments", formData.comments);
+//     dataToSubmit.append("commant", formData.commant);
 //     dataToSubmit.append("trending", formData.trending);
 
 //     try {
@@ -91,7 +91,7 @@
 //           description: "",
 //           likes: 0,
 //           noLikes: 0,
-//           comments: 0,
+//           commant: 0,
 //           trending: 0,
 //         });
 //         alert("News uploaded successfully!");
@@ -176,15 +176,15 @@
 //             />
 //           </div>
 
-//           {/* Comments */}
+//           {/* commant */}
 //           <div className="w-full sm:w-1/4">
-//             <label className="block font-semibold">Comments</label>
+//             <label className="block font-semibold">commant</label>
 //             <input
 //               type="number"
-//               name="comments"
-//               value={formData.comments}
+//               name="commant"
+//               value={formData.commant}
 //               onChange={handleChange}
-//               placeholder="Number of comments"
+//               placeholder="Number of commant"
 //               className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50"
 //             />
 //           </div>
@@ -331,7 +331,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     description: "",
     likes: 0,
     noLikes: 0,
-    comments: 0,
+    commant: 0,
     trending: 0,
   });
 
@@ -379,7 +379,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     dataToSubmit.append("description", formData.description);
     dataToSubmit.append("likes", formData.likes);
     dataToSubmit.append("noLikes", formData.noLikes);
-    dataToSubmit.append("comments", formData.comments);
+    dataToSubmit.append("commant", formData.commant);
     dataToSubmit.append("trending", formData.trending);
     if (dataToSubmit) {
       setLoading(true);
@@ -406,7 +406,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
           description: "",
           likes: 0,
           noLikes: 0,
-          comments: 0,
+          commant: 0,
           trending: 0,
         });
         alert("News uploaded successfully!");
@@ -492,15 +492,15 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
             />
           </div>
 
-          {/* Comments */}
+          {/* commant */}
           <div className="w-full sm:w-1/4">
-            <label className="block font-semibold">Comments</label>
+            <label className="block font-semibold">Commants</label>
             <input
               type="number"
-              name="comments"
-              value={formData.comments}
+              name="commant"
+              value={formData.commant}
               onChange={handleChange}
-              placeholder="Number of comments"
+              placeholder="Number of commant"
               className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50"
             />
           </div>
