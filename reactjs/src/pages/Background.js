@@ -117,6 +117,10 @@ function Background() {
       if (response.status === 200) {
         alert("Image uploaded successfully");
       }
+      else if (response.status === 404){
+        alert("Image failed upload");
+
+      }
     } catch (error) {
       console.error("Error uploading image");
     }
