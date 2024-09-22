@@ -66,8 +66,13 @@ const login = async (req, res) => {
           expiresIn: "1d",
         }
       );
+
+      const oneday = 24 * 60 * 60 * 1000;
+      const expiresin = Date.now() + oneday;
+
       res.status(200).json({
         message: "Login successful",
+        expiresin:expiresin,
         user_access_token: user_access_token,
         user: userObj, // Use userObj without password
       });

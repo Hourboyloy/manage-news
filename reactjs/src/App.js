@@ -22,12 +22,17 @@ function App() {
   useEffect(() => {
     if (IsLoggedIn() !== "1") {
       navigate("/login"); // Redirect to login if not authenticated
-    } else if (IsLoggedIn) {
     }
   }, [navigate]);
 
   if (IsLoggedIn() !== "1") {
     return;
+  }
+
+  else if (localStorage.getItem("expiresin") - Date.now() <= 0) {
+    localStorage.setItem("isLogin", "0");
+    navigate("/login");
+    return
   }
 
   const setDefaultIndexofList = () => {

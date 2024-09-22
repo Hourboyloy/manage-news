@@ -23,15 +23,18 @@ const LoginForm = () => {
       if(response.status===200){
         alert("Login successfuly");
       }
-      const { user_access_token, admin_access_token, user } = response.data;
+      const { user_access_token, admin_access_token, user, expiresin } =
+        response.data;
       if (admin_access_token) {
         localStorage.setItem("admin_access_token", admin_access_token);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("isLogin", "1");
+        localStorage.setItem("expiresin", expiresin);
         navigate("/");
       } else if (user_access_token) {
         localStorage.setItem("user_access_token", user_access_token);
         localStorage.setItem("user", JSON.stringify(user));
+         localStorage.setItem("expiresin", expiresin);
         localStorage.setItem("isLogin", "1");
         navigate("/");
       }
