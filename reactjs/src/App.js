@@ -29,11 +29,12 @@ function App() {
     return;
   }
 
-  else if (localStorage.getItem("expiresin") - Date.now() <= 0) {
-    localStorage.setItem("isLogin", "0");
-    navigate("/login");
-    return
-  }
+    const expiresIn = localStorage.getItem("expiresin");
+    if (expiresIn && Date.now() >= Number(expiresIn)) {
+      localStorage.setItem("isLogin", "0");
+      navigate("/login");
+      return; // Exit the function early
+    }
 
   const setDefaultIndexofList = () => {
     const newStartData = 0;
