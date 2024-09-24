@@ -146,6 +146,7 @@ function App() {
           handleSetLogin={handleSetLogin}
         />
       </div>
+      
       {/* Main Content */}
       <div className="flex-grow">
         <Header handleToggle={handleToggle} togglenav={togglenav} />
