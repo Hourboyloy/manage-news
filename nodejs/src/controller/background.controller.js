@@ -85,10 +85,53 @@ const deleteBGImage = async (req, res) => {
   }
 };
 
+
+
+// Function to update the 'seted' field
+const updateSetedField = async (req,res)=> {
+  try {
+    await Background.updateMany({}, { seted: false });
+
+    // Set the specified document's 'seted' field to true
+    const updatedDocument = await Background.findByIdAndUpdate(
+      req.params.id,
+      { seted: true },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedDocument) {
+      res.json({ message: "Document not found" });
+      return null;
+    }
+    res.json({ message: "set background successfuly", updatedDocument:updatedDocument });
+    return updatedDocument;
+  } catch (error) {
+    console.error("Error updating seted field:", error);
+    throw error; // Optional: rethrow the error for further handling
+  }
+}
+
+
+const getSetedDocument = async(red,res)=> {
+  try {
+    const setedDocument = await Background.findOne({ seted: true });
+
+    if (!setedDocument) {
+      return res.json({message:"No document with seted=true found"})
+    }
+    return res.json({seted:setedDocument})
+  } catch (error) {
+    console.error("Error retrieving seted document:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   uploadBGImage,
   deleteBGImage,
   getAllBGImages,
   getBGImageById,
+  getSetedDocument,
+  updateSetedField,
 };
 

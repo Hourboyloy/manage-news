@@ -41,11 +41,16 @@ function Background() {
           // },
         }
       );
-      alert("Image retrieved successfully");
-      if (response) {
-        localStorage.setItem("background", JSON.stringify(response.data));
-        if (Setbg() !== null) {
-          navigate("/background");
+      if (response.status === 200) {
+        const responseSetbg = await axios.put(
+          `https://manage-news-server134.vercel.app/background-get/${imageId}`
+        );
+        if (responseSetbg.data.message === "set background successfuly") {
+          alert("successfully");
+          localStorage.setItem("background", JSON.stringify(response.data));
+          if (Setbg() !== null) {
+            navigate("/background");
+          }
         }
       }
     } catch (error) {
@@ -116,10 +121,8 @@ function Background() {
       );
       if (response.status === 200) {
         alert("Image uploaded successfully");
-      }
-      else if (response.status === 404){
+      } else if (response.status === 404) {
         alert("Image failed upload");
-
       }
     } catch (error) {
       console.error("Error uploading image");

@@ -3,6 +3,10 @@ const bgSchema = new mongoose.Schema({
   bgurl: {
     type: String,
   },
+  seted: {
+    type: Boolean,
+    default: false,
+  },
   cloadinary_id: {
     type: String,
   },
