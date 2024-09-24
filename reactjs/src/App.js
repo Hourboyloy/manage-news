@@ -13,7 +13,6 @@ function App() {
     localStorage.setItem("user", {});
   };
 
-
   const [background, setBackground] = useState();
   useEffect(() => {
     axios
@@ -48,12 +47,12 @@ function App() {
     return;
   }
 
-    const expiresIn = localStorage.getItem("expiresin");
-    if (expiresIn && Date.now() >= Number(expiresIn)) {
-      localStorage.setItem("isLogin", "0");
-      navigate("/login");
-      return; // Exit the function early
-    }
+  const expiresIn = localStorage.getItem("expiresin");
+  if (expiresIn && Date.now() >= Number(expiresIn)) {
+    localStorage.setItem("isLogin", "0");
+    navigate("/login");
+    return; // Exit the function early
+  }
 
   const setDefaultIndexofList = () => {
     const newStartData = 0;
@@ -147,7 +146,7 @@ function App() {
           handleSetLogin={handleSetLogin}
         />
       </div>
-      
+
       {/* Main Content */}
       <div className="flex-grow">
         <Header handleToggle={handleToggle} togglenav={togglenav} />

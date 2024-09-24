@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import NewsForm from "../components/NewsForm";
 
 function Upload() {
-  const [lengDiscription,setLengDiscription] = useState(0);
-  useEffect(()=>{
+  const [lengDiscription, setLengDiscription] = useState(0);
+  useEffect(() => {
     setLengDiscription(500);
-  },[])
+  }, []);
 
-  const handleLength = (getValLeng)=>{
+  const handleLength = (getValLeng) => {
     let MaxLeng = 500;
     MaxLeng = MaxLeng - getValLeng;
-    setLengDiscription(MaxLeng)
-  }
+    setLengDiscription(MaxLeng);
+  };
 
   return (
     <div className="min-h-[91vh] md:p-6 p-4 flex flex-col justify-center">
@@ -20,4 +20,4 @@ function Upload() {
   );
 }
 
-export default Upload
+export default Upload;

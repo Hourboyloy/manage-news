@@ -1,8 +1,25 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { Setbg } from "./components/backgroundStore";
+import axios from 'axios';
 
 const AuthLayout = () => {
+  const [background, setBackground] = useState();
+  useEffect(() => {
+    axios
+      .get("https://manage-news-server134.vercel.app/background-seted")
+      .then((response) => {
+        if (
+          response.status === 200 &&
+          response.data.message !== "No document with seted=true found"
+        ) {
+          return setBackground(response.data.seted);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
   return (
     <div>
       {Setbg() === null ? (
