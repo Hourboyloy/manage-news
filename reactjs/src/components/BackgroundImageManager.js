@@ -45,14 +45,18 @@ const BackgroundImageManager = ({
                 />
 
                 {/* Set as background button */}
-                {id_bg() && (
+                {id_bg() === e._id ? (
+                  <button
+                    className={`absolute top-2 left-2 bg-green-600 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none`}
+                  >
+                    Seted
+                  </button>
+                ) : (
                   <button
                     onClick={() => !e.seted && handleSetImageById(e._id)}
-                    className={`absolute top-2 left-2 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none ${
-                      e.seted ? "bg-green-600" : "bg-blue-600 hover:bg-blue-700"
-                    }`}
+                    className={`absolute top-2 bg-blue-600 left-2 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none`}
                   >
-                    {e.seted ? "Seted" : "Set Background"}
+                    Set Background
                   </button>
                 )}
 
