@@ -1,5 +1,6 @@
 import React from "react";
 import { id_bg } from "../components/ID_BG";
+
 const BackgroundImageManager = ({
   background,
   handleGetImageById,
@@ -36,37 +37,29 @@ const BackgroundImageManager = ({
           {background?.length > 0 &&
             background.map((e, index) => (
               <div key={index} className="relative">
-                {/* e preview */}
+                {/* Image preview */}
                 <img
                   src={`${e.bgurl}`}
                   alt={`Background ${index + 1}`}
                   className="w-full h-40 object-cover rounded-md border"
                 />
+
                 {/* Set as background button */}
-                <div>
-                  {id_bg() === null ? (
-                    ""
-                  ) : (
-                    <div>
-                      {e.seted ? (
-                        <button className="absolute top-2 left-2 bg-blue-600 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none">
-                          Seted
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleGetImageById(e._id)}
-                          className="absolute top-2 left-2 bg-blue-600 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none"
-                        >
-                          Set Background
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
+                {id_bg() && (
+                  <button
+                    onClick={() => !e.seted && handleGetImageById(e._id)}
+                    className={`absolute top-2 left-2 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none ${
+                      e.seted ? "bg-green-600" : "bg-blue-600 hover:bg-blue-700"
+                    }`}
+                  >
+                    {e.seted ? "Seted" : "Set Background"}
+                  </button>
+                )}
+
                 {/* Delete button */}
                 <button
                   onClick={() => handleDeleteImageById(e._id)}
-                  className="absolute top-2 right-2 bg-red-600 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none"
+                  className="absolute top-2 right-2 bg-red-600 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none hover:bg-red-700"
                 >
                   Delete
                 </button>
