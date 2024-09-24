@@ -7,13 +7,23 @@ import { IsLoggedIn } from "./Auth/Auth";
 import { Setbg } from "./components/backgroundStore";
 
 function App() {
+  const [background, setBackground] = useState(null);
+  const [togglenav, setTogglenav] = useState(false);
+  const navigate = useNavigate();
+
   const handleSetLogin = () => {
     localStorage.setItem("isLogin", "0");
     localStorage.setItem("admin_access_token", "");
-    localStorage.setItem("user", {});
+    localStorage.setItem("user", JSON.stringify({}));
   };
 
-  const [background, setBackground] = useState();
+  const setDefaultIndexofList = () => {
+    localStorage.setItem("startData", JSON.stringify(0));
+    localStorage.setItem("stopData", JSON.stringify(9));
+    localStorage.setItem("index", JSON.stringify(0));
+    localStorage.setItem("listIndex", JSON.stringify(1));
+  };
+
   useEffect(() => {
     axios
       .get("https://manage-news-server134.vercel.app/background-seted")
@@ -22,7 +32,7 @@ function App() {
           response.status === 200 &&
           response.data.message !== "No document with seted=true found"
         ) {
-          return setBackground(response.data.seted);
+          setBackground(response.data.seted);
         }
       })
       .catch((err) => {
@@ -30,43 +40,30 @@ function App() {
       });
   }, []);
 
-  const [togglenav, setTogglenav] = useState(false);
-  const handleToggle = () => {
-    setTogglenav(!togglenav);
-  };
-
-  const navigate = useNavigate();
-
   useEffect(() => {
     if (IsLoggedIn() !== "1") {
-      navigate("/login"); // Redirect to login if not authenticated
+      navigate("/login");
     }
   }, [navigate]);
 
   if (IsLoggedIn() !== "1") {
-    return;
+    return <div>Redirecting...</div>;
   }
 
   const expiresIn = localStorage.getItem("expiresin");
   if (expiresIn && Date.now() >= Number(expiresIn)) {
     localStorage.setItem("isLogin", "0");
     navigate("/login");
-    return; // Exit the function early
+    return <div>Session expired, logging out...</div>; // Exit early
   }
 
-  const setDefaultIndexofList = () => {
-    const newStartData = 0;
-    const newStopData = 9;
-    const newIndex = 0;
-    const newListIndex = 1;
-    localStorage.setItem("startData", JSON.stringify(newStartData));
-    localStorage.setItem("stopData", JSON.stringify(newStopData));
-    localStorage.setItem("index", JSON.stringify(newIndex));
-    localStorage.setItem("listIndex", JSON.stringify(newListIndex));
+  const handleToggle = () => {
+    setTogglenav(!togglenav);
   };
 
   return (
     <div className="flex min-h-screen">
+      {/* Mobile Navigation */}
       <div
         className={`h-[120vh] md:w-6/12 w-7/12 bg-gray-900 bg-opacity-90 fixed xl:hidden top-0 text-white z-30 pt-4 transition-all duration-500 ${
           togglenav ? "left-0" : "-left-full"
@@ -80,7 +77,7 @@ function App() {
               setDefaultIndexofList();
             }}
             to="/"
-            className=" focus:outline-none block py-2 px-4 hover:bg-gray-700"
+            className="focus:outline-none block py-2 px-4 hover:bg-gray-700"
           >
             Dashboard
           </Link>
@@ -90,35 +87,34 @@ function App() {
               setDefaultIndexofList();
             }}
             to="/news"
-            className=" focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
+            className="focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
           >
             News
           </Link>
-
           <Link
             onClick={() => {
               handleToggle();
               setDefaultIndexofList();
             }}
             to="/background"
-            className=" focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
+            className="focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
           >
             Background
           </Link>
-
           <Link
             to="/login"
             onClick={() => {
               handleSetLogin();
               setDefaultIndexofList();
             }}
-            className=" focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
+            className="focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
           >
             Logout
           </Link>
         </nav>
       </div>
 
+      {/* Background Section */}
       {Setbg() === null ? (
         <div
           style={{
@@ -139,7 +135,7 @@ function App() {
         </div>
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar for Desktop */}
       <div className="hidden xl:block sticky top-0 left-0 h-full">
         <Sidebar
           setDefaultIndexofList={setDefaultIndexofList}
