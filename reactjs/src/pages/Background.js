@@ -43,8 +43,14 @@ function Background() {
         }
       );
       if (response.status === 200) {
+        const adminToken = localStorage.getItem("admin_access_token");
         const responseSetbg = await axios.put(
-          `https://manage-news-server134.vercel.app/background-set/${imageId}`
+          `https://manage-news-server134.vercel.app/background-set/${imageId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${adminToken}`, // Add token to headers
+            },
+          }
         );
         if (responseSetbg.data.message === "set background successfuly") {
           alert("Background set successfully");

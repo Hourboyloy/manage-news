@@ -99,7 +99,7 @@ const ManageNews = () => {
   }, [handlePagenation]); // Add handlePagenation as dependency
 
   // delete items
-  const [message, setMessage] = useState("");
+
   const handleDelete = async (itemId) => {
     const adminToken = localStorage.getItem("admin_access_token");
 
@@ -114,16 +114,13 @@ const ManageNews = () => {
       );
 
       if (response.status === 200) {
-        setMessage("News item deleted successfully.");
-        alert(message);
+        alert("News item deleted successfully.");
         handleFetchData();
       } else {
-        setMessage("Failed to delete the news item.");
-        alert(message);
+        alert("Failed to delete the news item.");
       }
     } catch (error) {
-      setMessage("Error deleting the item. Please try again.");
-      alert(message);
+      alert("Error deleting the item. Please try again.");
     }
   };
 
