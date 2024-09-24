@@ -34,7 +34,7 @@ function Background() {
     try {
       const adminToken = localStorage.getItem("admin_access_token");
       const responseSetbg = await axios.put(
-        `https://manage-news-server134.vercel.app/background-set/${imageId}`,
+        `https://manage-news-server134.vercel.app/set-bg/${imageId}`,
         {}, // Assuming no body data is needed; modify if required
         {
           headers: {
