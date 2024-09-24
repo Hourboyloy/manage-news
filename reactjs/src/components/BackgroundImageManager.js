@@ -53,7 +53,7 @@ const BackgroundImageManager = ({
                   </button>
                 ) : (
                   <button
-                    onClick={() => !e.seted && handleSetImageById(e._id)}
+                    onClick={() => handleSetImageById(e._id)}
                     className={`absolute top-2 bg-blue-600 left-2 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none`}
                   >
                     Set Background
