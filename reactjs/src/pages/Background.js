@@ -34,7 +34,7 @@ function Background() {
   const handleGetImageById = async (imageId) => {
     try {
       const response = await axios.get(
-        `https://manage-news-server134.vercel.app/background-get/${imageId}`,
+        `https://manage-news-server134.vercel.app/set-bg/${imageId}`,
         {
           // Add headers if needed
           // headers: {
