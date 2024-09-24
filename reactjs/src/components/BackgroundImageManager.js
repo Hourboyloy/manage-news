@@ -3,7 +3,7 @@ import { id_bg } from "../components/ID_BG";
 
 const BackgroundImageManager = ({
   background,
-  handleGetImageById,
+  handleSetImageById,
   handleDeleteImageById,
   handleImageUpload,
 }) => {
@@ -47,7 +47,7 @@ const BackgroundImageManager = ({
                 {/* Set as background button */}
                 {id_bg() && (
                   <button
-                    onClick={() => !e.seted && handleGetImageById(e._id)}
+                    onClick={() => !e.seted && handleSetImageById(e._id)}
                     className={`absolute top-2 left-2 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none ${
                       e.seted ? "bg-green-600" : "bg-blue-600 hover:bg-blue-700"
                     }`}

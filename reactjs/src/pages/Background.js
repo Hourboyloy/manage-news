@@ -31,33 +31,39 @@ function Background() {
     handleFetchDataBG(); // Fetch data on mount
   }, []); // Empty dependency array to avoid infinite loop
 
-  const handleGetImageById = async (imageId) => {
+  const handleSetImageById = async (imageId) => {
     try {
-      const response = await axios.get(
-        `https://manage-news-server134.vercel.app/set-bg/${imageId}`,
+      // const response = await axios.get(
+      //   `https://manage-news-server134.vercel.app/set-bg/${imageId}`,
+      //   {
+      //     // Add headers if needed
+      //     // headers: {
+      //     //   Authorization: `Bearer ${localStorage.getItem("admin_access_token")}`,
+      //     // },
+      //   }
+      // );
+      // if (response.status === 200) {
+        
+      // }
+
+
+      const adminToken = localStorage.getItem("admin_access_token");
+      const responseSetbg = await axios.put(
+        `https://manage-news-server134.vercel.app/background-set/${imageId}`,
         {
-          // Add headers if needed
-          // headers: {
-          //   Authorization: `Bearer ${localStorage.getItem("admin_access_token")}`,
-          // },
+          headers: {
+            Authorization: `Bearer ${adminToken}`, // Add token to headers
+          },
         }
       );
-      if (response.status === 200) {
-        const adminToken = localStorage.getItem("admin_access_token");
-        const responseSetbg = await axios.put(
-          `https://manage-news-server134.vercel.app/background-set/${imageId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${adminToken}`, // Add token to headers
-            },
-          }
+      if (responseSetbg.data.message === "set background successfuly") {
+        alert("Background set successfully");
+        localStorage.setItem(
+          "background",
+          JSON.stringify(response.data.updatedDocument)
         );
-        if (responseSetbg.data.message === "set background successfuly") {
-          alert("Background set successfully");
-          localStorage.setItem("background", JSON.stringify(response.data));
-          if (Setbg() !== null) {
-            navigate("/background");
-          }
+        if (Setbg() !== null) {
+          navigate("/background");
         }
       }
     } catch (error) {
@@ -84,6 +90,7 @@ function Background() {
           const defaultBackground = {
             bgurl:
               "https://res.cloudinary.com/doathl3dp/image/upload/v1726764522/vbuqragemi8thbwy1vfy.webp",
+            seted: true,
             createdAt: "2024-09-18T10:51:21.423Z",
             __v: 0,
             _id: "98756782",
@@ -138,7 +145,7 @@ function Background() {
         <div className="p-4 md:p-6">
           <BackgroundImageManager
             background={background}
-            handleGetImageById={handleGetImageById}
+            handleSetImageById={handleSetImageById}
             handleDeleteImageById={handleDeleteImageById}
             handleImageUpload={handleImageUpload}
           />
