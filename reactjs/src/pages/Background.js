@@ -1,58 +1,44 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BackgroundImageManager from "../components/BackgroundImageManager";
-import { Setbg } from "../components/backgroundStore";
 import { useNavigate } from "react-router-dom";
-import { id_bg } from "../components/ID_BG";
 import FullPageLoader from "../components/FullPageLoader";
 
 function Background() {
   const [isLoader, setLoader] = useState(false);
   const navigate = useNavigate();
-  const [background, setBG] = useState(null);
+  const [background, setBG] = useState([]); // Initialize as an empty array
 
   const handleFetchDataBG = async () => {
     try {
-      setLoader(true); // Start loading
+      setLoader(true);
       const response = await axios.get(
         "https://manage-news-server134.vercel.app/background-getAll"
       );
       if (response.status === 200) {
         setBG(response.data);
       }
-      setLoader(false); // Stop loading once data is fetched
     } catch (error) {
       alert("Error: Can't access data");
-      setLoader(false); // Stop loader on error
+      console.error(error); // Log error for debugging
+    } finally {
+      setLoader(false); // Ensure loader is stopped regardless of success/failure
     }
   };
 
   useEffect(() => {
-    handleFetchDataBG(); // Fetch data on mount
-  }, []); // Empty dependency array to avoid infinite loop
+    handleFetchDataBG();
+  }, []);
 
   const handleSetImageById = async (imageId) => {
     try {
-      // const response = await axios.get(
-      //   `https://manage-news-server134.vercel.app/set-bg/${imageId}`,
-      //   {
-      //     // Add headers if needed
-      //     // headers: {
-      //     //   Authorization: `Bearer ${localStorage.getItem("admin_access_token")}`,
-      //     // },
-      //   }
-      // );
-      // if (response.status === 200) {
-        
-      // }
-
-
       const adminToken = localStorage.getItem("admin_access_token");
       const responseSetbg = await axios.put(
         `https://manage-news-server134.vercel.app/background-set/${imageId}`,
+        {}, // Assuming no body data is needed; modify if required
         {
           headers: {
-            Authorization: `Bearer ${adminToken}`, // Add token to headers
+            Authorization: `Bearer ${adminToken}`,
           },
         }
       );
@@ -60,11 +46,9 @@ function Background() {
         alert("Background set successfully");
         localStorage.setItem(
           "background",
-          JSON.stringify(response.data.updatedDocument)
+          JSON.stringify(responseSetbg.data.updatedDocument)
         );
-        if (Setbg() !== null) {
-          navigate("/background");
-        }
+        navigate("/background");
       }
     } catch (error) {
       alert("Error retrieving image");
@@ -84,20 +68,8 @@ function Background() {
           },
         }
       );
-      alert("Image deleted successfully");
       if (response.status === 200) {
-        if (id_bg() === imageId) {
-          const defaultBackground = {
-            bgurl:
-              "https://res.cloudinary.com/doathl3dp/image/upload/v1726764522/vbuqragemi8thbwy1vfy.webp",
-            seted: true,
-            createdAt: "2024-09-18T10:51:21.423Z",
-            __v: 0,
-            _id: "98756782",
-          };
-          localStorage.setItem("background", JSON.stringify(defaultBackground));
-          window.location.reload();
-        }
+        alert("Image deleted successfully");
         handleFetchDataBG(); // Refresh data after deletion
       }
     } catch (error) {
@@ -140,7 +112,7 @@ function Background() {
   return (
     <div>
       {isLoader ? (
-        <FullPageLoader /> // Display loader while data is being fetched
+        <FullPageLoader />
       ) : (
         <div className="p-4 md:p-6">
           <BackgroundImageManager
