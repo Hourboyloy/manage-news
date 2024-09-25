@@ -79,7 +79,7 @@ function Details() {
           />
         </div>
       ) : (
-        <div className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-white font-bold h-full flex justify-center items-center pt-20">
+        <div className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-white font-bold h-[90vh] flex justify-center items-center pt-20">
           Not Found
         </div>
       )}
