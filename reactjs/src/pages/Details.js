@@ -9,10 +9,21 @@ function Details() {
   const Navigate = useNavigate();
   const { id } = useParams(); // Destructure id from useParams
   const [data, setData] = useState();
+  const [isloading, setLoading] = useState(true);
+  const [isfound, setfound] = useState(true);
   const handleGetbyID = useCallback(async () => {
     try {
-      const res = await axios.get(`https://manage-news-server134.vercel.app/getone/${id}`);
-      setData(res.data.news);
+      const res = await axios.get(
+        `https://manage-news-server134.vercel.app/getone/${id}`
+      );
+      if (res.status === 200) {
+        setLoading(false);
+        if (res.data.message === "News not found") {
+          setfound(false);
+        } else {
+          setData(res.data.news);
+        }
+      }
     } catch (e) {
       console.error(e);
     }
@@ -55,7 +66,9 @@ function Details() {
 
   return (
     <div>
-      {data? (
+      {isloading ? (
+        <FullPageLoader />
+      ) : isfound ? (
         <div className="min-h-[90.8vh] flex items-center justify-center">
           <NewsDetail
             data={data}
@@ -66,7 +79,9 @@ function Details() {
           />
         </div>
       ) : (
-        <FullPageLoader />
+        <div className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-white font-bold h-full flex justify-center items-center pt-20">
+          Not Found
+        </div>
       )}
     </div>
   );

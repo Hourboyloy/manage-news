@@ -104,7 +104,7 @@ const getOne = async (req, res) => {
     if (news == null) {
       return res.json({ message: "News not found" });
     }
-    res.json({ news: news });
+    res.json({ news: news, message: "News found successfuly" });
   } catch (error) {
     console.log(error);
   }
