@@ -10,13 +10,9 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
   const initialFormData = {
     title: "",
     description: "",
-    likes: "",
-    noLikes: "",
-    commant: "",
-    trending: "0",
-    logo: null,
+    breakingnews: 0,
+    trending: 0,
     photo: null,
-    logoPreview: null,
     photoPreview: null,
     updatedAt: null,
   };
@@ -27,7 +23,11 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({
+      ...formData,
+      [name]:
+        name === "breakingnews" || name === "trending" ? Number(value) : value,
+    });
   };
 
   const handleFileChange = (e) => {
@@ -56,12 +56,6 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
     if (!formData.title) newErrors.title = "Title is required";
     if (!formData.description)
       newErrors.description = "Description is required";
-    if (!formData.likes || isNaN(formData.likes))
-      newErrors.likes = "Likes must be a number";
-    if (!formData.noLikes || isNaN(formData.noLikes))
-      newErrors.noLikes = "No Likes must be a number";
-    if (!formData.commant || isNaN(formData.commant))
-      newErrors.commant = "commant must be a number";
     return newErrors;
   };
 
@@ -78,25 +72,20 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
 
     const formDataToSend = new FormData();
     for (const key in updatedFormData) {
-      if (updatedFormData[key]) {
+      // Append all values, even if they are 0 (falsy values).
+      if (updatedFormData[key] !== null && updatedFormData[key] !== undefined) {
         formDataToSend.append(key, updatedFormData[key]);
       }
     }
 
     setIsSubmitting(true);
     try {
-      await axios.put(
-        `https://manage-news-server134.vercel.app/edit-news/${id}`,
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem(
-              "admin_access_token"
-            )}`,
-          },
-        }
-      );
+      await axios.put(`https://manage-news-server134.vercel.app/edit-news/${id}`, formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("admin_access_token")}`,
+        },
+      });
       alert("Form submitted successfully!");
       navigate(`/details/${id}`);
     } catch (error) {
@@ -186,82 +175,24 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
             )}
           </div>
 
-          {/* Likes */}
+          {/* breakingnews */}
           <div className="relative">
             <label
-              htmlFor="likes"
+              htmlFor="breakingnews"
               className="block text-sm font-medium text-gray-800"
             >
-              Likes <span className="text-red-500">*</span>
+              Breaking News
             </label>
-            <input
-              id="likes"
-              name="likes"
-              type="number"
-              value={formData.likes}
+            <select
+              id="breakingnews"
+              name="breakingnews"
+              value={formData.breakingnews}
               onChange={handleChange}
-              className={`mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 ${
-                errors.likes ? "border-red-500" : "border-gray-300"
-              } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
-              placeholder="Enter likes"
-            />
-            {errors.likes && (
-              <p className="text-red-500 text-sm mt-1">
-                <FiAlertCircle className="inline-block mr-1" /> {errors.likes}
-              </p>
-            )}
-          </div>
-
-          {/* No Likes */}
-          <div className="relative">
-            <label
-              htmlFor="noLikes"
-              className="block text-sm font-medium text-gray-800"
+              className="mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             >
-              No Likes <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="noLikes"
-              name="noLikes"
-              type="number"
-              value={formData.noLikes}
-              onChange={handleChange}
-              className={`mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 ${
-                errors.noLikes ? "border-red-500" : "border-gray-300"
-              } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
-              placeholder="Enter no likes"
-            />
-            {errors.noLikes && (
-              <p className="text-red-500 text-sm mt-1">
-                <FiAlertCircle className="inline-block mr-1" /> {errors.noLikes}
-              </p>
-            )}
-          </div>
-
-          {/* commants */}
-          <div className="relative">
-            <label
-              htmlFor="commant"
-              className="block text-sm font-medium text-gray-800"
-            >
-              Commants <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="commant"
-              name="commant"
-              type="number"
-              value={formData.commant}
-              onChange={handleChange}
-              className={`mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 ${
-                errors.commant ? "border-red-500" : "border-gray-300"
-              } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
-              placeholder="Enter commant"
-            />
-            {errors.commant && (
-              <p className="text-red-500 text-sm mt-1">
-                <FiAlertCircle className="inline-block mr-1" /> {errors.commant}
-              </p>
-            )}
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
           </div>
 
           {/* Trending */}
@@ -279,54 +210,9 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               onChange={handleChange}
               className="mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             >
-              <option value="0">Not Trending</option>
-              <option value="1">Trending</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
             </select>
-          </div>
-
-          {/* Logo Upload */}
-          <div className="relative">
-            <label
-              htmlFor="logo"
-              className="block text-sm font-medium text-gray-800"
-            >
-              Logo Upload
-            </label>
-            <div className="flex items-center mt-2">
-              {!formData.logo && (
-                <label
-                  htmlFor="logo"
-                  className="cursor-pointer flex items-center justify-center w-full p-4 border rounded-lg text-black bg-white bg-opacity-50 focus:outline-none transition duration-150 ease-in-out"
-                >
-                  <FiUpload className="text-xl mr-2" />
-                  <span>Upload logo</span>
-                </label>
-              )}
-              <input
-                id="logo"
-                name="logo"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden focus:outline-none"
-              />
-              {formData.logo && (
-                <div className="flex items-center">
-                  <img
-                    src={formData.logoPreview}
-                    alt="Logo Preview"
-                    className="h-16 w-16 object-cover border border-gray-300 rounded-lg shadow-sm"
-                  />
-                  <button
-                    type="button"
-                    className="ml-4 focus:outline-none select-none text-red-500 hover:text-red-600 transition duration-150 ease-in-out"
-                    onClick={() => handleRemoveFile("logo")}
-                  >
-                    <FiTrash2 className="text-xl" />
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Photo Upload */}
@@ -375,59 +261,31 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
           </div>
 
           {/* Submit, Clear, and Back Buttons */}
-          <div className="mt-6 flex justify-between gap-4">
+          <div className="flex items-center justify-between mt-6">
             <motion.button
-              type="button"
-              className="flex select-none items-center justify-center py-3 w-full md:w-auto md:px-6 text-white rounded-lg bg-red-600 hover:bg-red-700 focus:outline-none shadow-md transition-transform transform hover:scale-105"
-              onClick={handleBack}
               whileTap={{ scale: 0.95 }}
+              type="button"
+              onClick={handleBack}
+              className="px-6 py-3 bg-gray-600 text-gray-50 rounded-lg shadow-sm focus:outline-none select-none hover:bg-gray-700 transition duration-150 ease-in-out"
             >
-              <FiArrowLeft className="text-xl mr-2" />
-              <span>Back</span>
+              <FiArrowLeft className="inline-block mr-2" />
+              Back
             </motion.button>
             <motion.button
-              type="button"
-              className="py-3 w-full md:w-auto md:px-6 text-white rounded-lg bg-gray-600 hover:bg-gray-700  select-none focus:outline-none shadow-md transition-transform transform hover:scale-105"
-              onClick={handleCancel}
               whileTap={{ scale: 0.95 }}
+              type="button"
+              onClick={handleCancel}
+              className="px-6 py-3 bg-red-600 text-white rounded-lg shadow-sm focus:outline-none select-none hover:bg-red-700 transition duration-150 ease-in-out"
             >
               Clear
             </motion.button>
             <motion.button
-              type="submit"
-              className={`w-full py-3 text-white rounded-lg bg-blue-600 hover:bg-blue-700 select-none focus:outline-none shadow-md transition-transform transform hover:scale-105 ${
-                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={isSubmitting}
               whileTap={{ scale: 0.95 }}
+              type="submit"
+              disabled={isSubmitting}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-sm focus:outline-none select-none hover:bg-blue-700 transition duration-150 ease-in-out"
             >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <svg
-                    className="animate-spin h-5 w-5 mr-3 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 0114.046-4.637A6.014 6.014 0 0012 6c-3.313 0-6 2.687-6 6s2.687 6 6 6c1.356 0 2.641-.451 3.641-1.212A8.045 8.045 0 014 12z"
-                    ></path>
-                  </svg>
-                  Submitting...
-                </span>
-              ) : (
-                "Submit"
-              )}
+              {isSubmitting ? "Submitting..." : "Submit"}
             </motion.button>
           </div>
         </form>

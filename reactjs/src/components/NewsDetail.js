@@ -15,12 +15,7 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
       <div className="w-[92%] md:w-full mx-auto md:mx-0 md:px-6">
         <div className="md:max-w-[900px] overflow-hidden md:mx-auto md:p-6 p-4 bg-white bg-opacity-80 shadow-lg rounded-lg">
           {/* Title and Logo */}
-          <div className="flex items-center space-x-4 mb-5">
-            <img
-              src={`${data.logo}`}
-              alt={`${data.title} Logo`}
-              className="w-11 h-11 rounded-full object-cover"
-            />
+          <div className="flex items-center mb-3 capitalize">
             <h1 className="text-2xl font-bold text-gray-800 pb-1">
               {data.title}
             </h1>
@@ -81,74 +76,14 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
                 )}
               </div>
 
-              <div className="text-gray-600 mb-4 space-y-4">
-
-                <div className="flex items-center space-x-4">
-                  <div>
-                    {data.likes < 1000 ? (
-                      <div className="flex items-center space-x-2 text-nowrap">
-                        <FaThumbsUp className="text-blue-600" />
-                        <p className="flex items-center">
-                          <span>{data.likes}</span>{" "}
-                          <span className=" lg:block hidden">Likes</span>{" "}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-2 text-nowrap">
-                        <FaThumbsUp className="text-blue-600" />
-                        <p className="flex items-center">
-                          <span>{(data.likes / 1000).toFixed(1)}</span>{" "}
-                          <span className=" lg:block hidden">Likes</span>{" "}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    {data.noLikes < 1000 ? (
-                      <div className="flex items-center space-x-2 text-nowrap">
-                        <FaThumbsDown className="text-red-600" />
-                        <p className="flex items-center">
-                          <span>{data.noLikes}</span>
-                          <span className="lg:block hidden">Dislikes</span>{" "}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-2 text-nowrap">
-                        <FaThumbsDown className="text-red-600" />
-                        <p className="flex items-center">
-                          <span>{(data.noLikes/1000).toFixed(1)}</span>
-                          <span className="lg:block hidden">Dislikes</span>{" "}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    {data.commant < 1000 ? (
-                      <div className="flex items-center space-x-2 text-nowrap">
-                        <FaCommentDots className="text-green-600" />
-                        <p className="flex items-center">
-                          <span>{data.commant}</span>
-                          <span className="lg:block hidden">Comments</span>{" "}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-2 text-nowrap">
-                        <FaCommentDots className="text-green-600" />
-                        <p className="flex items-center">
-                          <span>{(data.commant/1000).toFixed(1)}</span>
-                          <span className="lg:block hidden">Comments</span>{" "}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
+              <div className="text-gray-700 my-1.5 space-y-0.5">
                 <div className="">{data.trending ? <p>Tranding</p> : ""}</div>
+                <div className="">
+                  {data.breakingnews ? <p>Breaking News</p> : ""}
+                </div>
               </div>
 
-              <div className="flex md:flex-row flex-col space-y-3 md:space-y-0 md:justify-between md:items-center text-gray-500 text-sm">
+              <div className="flex md:flex-row flex-col space-y-3 md:space-y-0 md:justify-between md:items-center text-gray-600 text-sm">
                 <div>
                   <strong>Created At:</strong>{" "}
                   {new Date(data.createdAt).toLocaleDateString()}

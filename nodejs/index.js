@@ -10,16 +10,19 @@ const background_route = require("./src/route/background.route");
 
 app.use(
   cors({
-    origin: ["https://manage-news-client134.vercel.app","https://news-olive-nine.vercel.app"],
+    origin: [
+      "https://manage-news-client134.vercel.app",
+      "https://news-olive-nine.vercel.app",
+    ],
     methods: "GET,POST,DELETE,PUT",
   })
 );
 
 // app.use(cors());
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.json({ message: "https://manage-news-client134.vercel.app" });
-})
+});
 
 app.use(express.json());
 app.use("/assets", express.static("assets"));

@@ -1,13 +1,7 @@
 const mongoose = require("mongoose");
 
 const newsmodel = mongoose.Schema({
-  logo: {
-    type: String,
-    required: true,
-    trim: true,
-  },
   photoCloudinaryId: { type: String }, // Cloudinary public_id for photo
-  logoCloudinaryId: { type: String }, // Cloudinary public_id for logo
   title: {
     type: String,
     required: true,
@@ -23,23 +17,17 @@ const newsmodel = mongoose.Schema({
     trim: true,
     maxlength: [500, "Text cannot be more than 500 characters long"],
   },
-  likes: {
+  breakingnews: {
     type: Number,
-    default: 0,
-    trim: true,
-  },
-  noLikes: {
-    type: Number,
-    default: 0,
-    trim: true,
-  },
-  commant: {
-    type: String,
     trim: true,
   },
   trending: {
     type: Number,
     trim: true,
+  },
+  isVisible: {
+    type: Number,
+    default: 1,
   },
   createdAt: {
     type: Date,

@@ -115,10 +115,10 @@ function App() {
       </div>
 
       {/* Background Section */}
-      {Setbg() === null ? (
+      {Setbg() ? (
         <div
           style={{
-            backgroundImage: `url(${background?.bgurl})`,
+            backgroundImage: `url(${Setbg()})`,
           }}
           className="bg-cover bg-center object-cover object-center h-full fixed top-0 left-0 w-full"
         >
@@ -127,7 +127,7 @@ function App() {
       ) : (
         <div
           style={{
-            backgroundImage: `url(${Setbg()})`,
+            backgroundImage: `url(${background?.bgurl})`,
           }}
           className="bg-cover bg-center object-cover object-center h-full fixed top-0 left-0 w-full"
         >

@@ -6,16 +6,18 @@ const news_route = (app) => {
   app.post(
     "/upload-news",
     protect_route_admin,
-    multer_cloudinary.fields([{ name: "photo" }, { name: "logo" }]), // Updated to use multer_cloudinary
+    multer_cloudinary.fields([{ name: "photo" }]), // Updated to use multer_cloudinary
     handle.create
   );
 
   app.put(
     "/edit-news/:id",
     protect_route_admin,
-    multer_cloudinary.fields([{ name: "photo" }, { name: "logo" }]), // Updated to use multer_cloudinary
+    multer_cloudinary.fields([{ name: "photo" }]), // Updated to use multer_cloudinary
     handle.updateNews
   );
+
+  app.put("/isvisible/:id", protect_route_admin, handle.updateIsVisible);
 
   app.delete("/remove-news/:id", protect_route_admin, handle.deleteNews);
 

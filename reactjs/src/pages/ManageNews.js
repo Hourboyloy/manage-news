@@ -9,6 +9,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { FaThumbsUp, FaThumbsDown, FaCommentDots } from "react-icons/fa";
+import { BiSolidHide } from "react-icons/bi";
 
 const ManageNews = () => {
   const [FecthData, setFecthData] = useState([]);
@@ -54,9 +55,7 @@ const ManageNews = () => {
 
   const handleFetchData = async () => {
     try {
-      const response = await axios.get(
-        "https://manage-news-server134.vercel.app/get-all"
-      );
+      const response = await axios.get("https://manage-news-server134.vercel.app/get-all");
       setFecthData(response.data.news);
       if (response.data.status === 200) {
         setToggleLoading(true);
@@ -124,6 +123,34 @@ const ManageNews = () => {
     }
   };
 
+  const handleUpdateVisibility = async (id, currentVisibility) => {
+    const newVisibility = currentVisibility === 1 ? 0 : 1; // Toggle between 1 and 0
+    try {
+      const response = await axios.put(
+        `https://manage-news-server134.vercel.app/isvisible/${id}`, // Backend endpoint
+        { isVisible: newVisibility }, // Send the new visibility status
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "admin_access_token"
+            )}`, // Add token to headers
+          },
+        }
+      );
+
+      // Check response status
+      if (response.status === 200) {
+        alert(response.data.message);
+        handleFetchData();
+      }
+    } catch (error) {
+      console.error("Error updating visibility:", error);
+      alert("Failed to update visibility. Please try again.");
+    }
+  };
+
+
+
   return (
     <div className="">
       {toggleLoading ? (
@@ -154,7 +181,7 @@ const ManageNews = () => {
 
             <div
               className={`md:flex hidden items-center space-x-3 text-xl ${
-                FecthData.length > 0 ? "" : "hidden"
+                FecthData.length > 0 ? "" : "overflow-hidden w-0 h-0"
               }`}
             >
               {startData > 0 ? (
@@ -190,16 +217,16 @@ const ManageNews = () => {
 
           <div
             className={`py-5 hidden md:block bg-gray-200 rounded shadow bg-opacity-70 transition-all duration-300 ${
-              FecthData.length > 0 ? "" : "hidden"
+              FecthData.length > 0 ? "" : " overflow-hidden w-0 h-0"
             }`}
           >
             <div>
               <div className="grid grid-cols-7 gap-10 font-bold bg-opacity-60 bg-gray-200 py-1 px-3 text-gray-800 text-sm">
                 <h2>#</h2>
                 <h2>Photo</h2>
-                <h2>Logo</h2>
                 <h2>Title</h2>
                 <h2 className="col col-span-1">Description</h2>
+                <h2>Breaking news</h2>
                 <h2>CreateAt</h2>
                 <h2>Action</h2>
               </div>
@@ -219,17 +246,9 @@ const ManageNews = () => {
                           alt=""
                         />
                       </div>
-                      <div className="w-24 h-14 flex items-center justify-center overflow-hidden">
-                        <img
-                          className="w-full border"
-                          src={`${e.logo}`}
-                          alt=""
-                        />
-                      </div>
                       <p className="flex-wrap capitalize text-base">
                         {e.title}
                       </p>
-
                       <div className=" col col-span-1">
                         {e.description.length > 29 ? (
                           <p>{e.description.slice(0, 28)}...</p>
@@ -237,8 +256,14 @@ const ManageNews = () => {
                           e.description
                         )}
                       </div>
+                      <div>
+                        {e.breakingnews ? (
+                          <p className="">True</p>
+                        ) : (
+                          <p className="">False</p>
+                        )}
+                      </div>
                       <p>{e.createdAt.split("T")[0]}</p>
-
                       <div className="relative">
                         {/* Changed the parent from <button> to <div> */}
                         <div className="font-bold text-lg group select-none cursor-pointer">
@@ -252,7 +277,7 @@ const ManageNews = () => {
                                 className="w-full flex justify-start hover:bg-gray-100 px-2 py-1 items-center space-x-1"
                               >
                                 <FaEye className="text-blue-600" />
-                                <p>View</p>
+                                <p>Preiew</p>
                               </Link>
                             </div>
 
@@ -275,6 +300,26 @@ const ManageNews = () => {
                                 <p>Edit</p>
                               </Link>
                             </div>
+                            <div>
+                              <button
+                                onClick={() =>
+                                  handleUpdateVisibility(e._id, e.isVisible)
+                                }
+                                className="w-full select-none focus:outline-none"
+                              >
+                                {e.isVisible === 1 ? (
+                                  <div className="w-full flex justify-start hover:bg-gray-100 px-2 py-1 items-center space-x-1">
+                                    <BiSolidHide className="text-red-600" />
+                                    <p>Hide</p>
+                                  </div>
+                                ) : (
+                                  <div className="w-full flex justify-start hover:bg-gray-100 px-2 py-1 items-center space-x-1">
+                                    <BiSolidHide className="text-green-600" />
+                                    <p>Show</p>
+                                  </div>
+                                )}
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -292,7 +337,7 @@ const ManageNews = () => {
                   key={e._id}
                   className="bg-white rounded-lg shadow-md overflow-hidden"
                 >
-                  <div className="relative">
+                  {/* <div className="relative">
                     <img
                       className="w-full h-48 object-cover"
                       src={`${e.photo}`}
@@ -323,7 +368,7 @@ const ManageNews = () => {
                         </Link>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="p-4">
                     <div className="flex items-center mb-2">
