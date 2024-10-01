@@ -22,6 +22,7 @@ const news_route = (app) => {
   app.delete("/remove-news/:id", protect_route_admin, handle.deleteNews);
 
   app.get("/get-all", handle.getAll);
+  app.get("/user-get-all", handle.usergetAll);
   app.get("/getone/:id", handle.getOne);
 };
 

@@ -10,10 +10,11 @@ const background_route = require("./src/route/background.route");
 
 app.use(
   cors({
-    origin: [
+    origin:
+    [
       "https://manage-news-client134.vercel.app",
       "https://news-olive-nine.vercel.app",
-    ],
+    ] ,
     methods: "GET,POST,DELETE,PUT",
   })
 );

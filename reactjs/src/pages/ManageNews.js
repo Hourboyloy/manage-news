@@ -8,7 +8,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FaThumbsUp, FaThumbsDown, FaCommentDots } from "react-icons/fa";
+// import { FaThumbsUp, FaThumbsDown, FaCommentDots } from "react-icons/fa";
 import { BiSolidHide } from "react-icons/bi";
 
 const ManageNews = () => {
@@ -149,8 +149,6 @@ const ManageNews = () => {
     }
   };
 
-
-
   return (
     <div className="">
       {toggleLoading ? (
@@ -216,7 +214,7 @@ const ManageNews = () => {
           </div>
 
           <div
-            className={`py-5 hidden md:block bg-gray-200 rounded shadow bg-opacity-70 transition-all duration-300 ${
+            className={`py-5 hidden lg:block bg-gray-200 rounded shadow bg-opacity-70 transition-all duration-300 ${
               FecthData.length > 0 ? "" : " overflow-hidden w-0 h-0"
             }`}
           >
@@ -329,59 +327,39 @@ const ManageNews = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:hidden sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:hidden sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
             {FecthData?.length > 0 &&
               FecthData.map((e, i) => (
-                <Link
-                  to={`/details/${e._id}`}
+                <li
                   key={e._id}
                   className="bg-white rounded-lg shadow-md overflow-hidden"
                 >
-                  {/* <div className="relative">
-                    <img
-                      className="w-full h-48 object-cover"
-                      src={`${e.photo}`}
-                      alt={e.title}
-                    />
-                    <div className="absolute top-2 right-2 bg-white bg-opacity-70 rounded-full p-1 shadow-lg cursor-pointer group">
-                      <div className="hidden group-hover:flex flex-col absolute right-0 top-full bg-white border rounded-lg shadow-lg w-36">
-                        <Link
-                          to={`/details/${e._id}`}
-                          className="flex items-center px-3 py-2 hover:bg-gray-100 text-blue-600"
-                        >
-                          <FaEye className="mr-2" />
-                          <p>View</p>
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(e._id)}
-                          className="flex items-center px-3 py-2 hover:bg-gray-100 text-red-600"
-                        >
-                          <MdDelete className="mr-2" />
-                          <p>Delete</p>
-                        </button>
-                        <Link
-                          to={`/edit/${e._id}`}
-                          className="flex items-center px-3 py-2 hover:bg-gray-100 text-green-600"
-                        >
-                          <RiPencilFill className="mr-2" />
-                          <p>Edit</p>
-                        </Link>
-                      </div>
+                  <Link
+                    to={`/details/${e._id}`}
+                    className="relative focus:outline-none"
+                  >
+                    <div className="">
+                      <img
+                        className="w-full h-48 object-cover"
+                        src={`${e.photo}`}
+                        alt={e.title}
+                      />
                     </div>
-                  </div> */}
+                    {e.breakingnews && (
+                      <div className=" absolute top-0 rounded-bl-lg shadow-lg right-0 bg-orange-600 text-white font-semibold px-2 py-1 capitalize">
+                        breaking news
+                      </div>
+                    )}
+                  </Link>
 
                   <div className="p-4">
-                    <div className="flex items-center mb-2">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden mr-3 text">
-                        <img
-                          className="w-full h-full object-cover border"
-                          src={`${e.logo}`}
-                          alt="Logo"
-                        />
-                      </div>
-                      <h3 className=" font-semibold truncate capitalize">
+                    <div className="mb-2">
+                      <Link
+                        to={`/details/${e._id}`}
+                        className=" focus:outline-none font-semibold truncate capitalize"
+                      >
                         {e.title}
-                      </h3>
+                      </Link>
                     </div>
                     <p className="text-gray-700 mt-2 truncate text-wrap">
                       {e.description.length > 100
@@ -393,74 +371,25 @@ const ManageNews = () => {
                     </p>
 
                     <div className="text-gray-600 mt-2 flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div>
-                          {e.likes < 1000 ? (
-                            <div className="flex items-center space-x-2 text-nowrap">
-                              <FaThumbsUp className="text-blue-600" />
-                              <p className="flex items-center">
-                                <span>{e.likes}</span>{" "}
-                                <span className=" lg:block hidden">Likes</span>{" "}
-                              </p>
+                      <div className="pt-1">
+                        <button
+                          onClick={() =>
+                            handleUpdateVisibility(e._id, e.isVisible)
+                          }
+                          className="w-full select-none border border-gray-200 shadow focus:outline-none"
+                        >
+                          {e.isVisible === 1 ? (
+                            <div className="w-full flex justify-start bg-gray-100 px-4 py-1 items-center space-x-1">
+                              <BiSolidHide className="text-red-600" />
+                              <p>Hide</p>
                             </div>
                           ) : (
-                            <div className="flex items-center space-x-2 text-nowrap">
-                              <FaThumbsUp className="text-blue-600" />
-                              <p className="flex items-center">
-                                <span>{(e.likes / 1000).toFixed(1)}</span>{" "}
-                                <span className=" lg:block hidden">Likes</span>{" "}
-                              </p>
+                            <div className="w-full flex justify-start bg-gray-100 px-4 py-1 items-center space-x-1">
+                              <FaEye className="text-green-600" />
+                              <p>Show</p>
                             </div>
                           )}
-                        </div>
-
-                        <div>
-                          {e.noLikes < 1000 ? (
-                            <div className="flex items-center space-x-2 text-nowrap">
-                              <FaThumbsDown className="text-red-600" />
-                              <p className="flex items-center">
-                                <span>{e.noLikes}</span>
-                                <span className="lg:block hidden">
-                                  Dislikes
-                                </span>{" "}
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="flex items-center space-x-2 text-nowrap">
-                              <FaThumbsDown className="text-red-600" />
-                              <p className="flex items-center">
-                                <span>{(e.noLikes / 1000).toFixed(1)}</span>
-                                <span className="lg:block hidden">
-                                  Dislikes
-                                </span>{" "}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-
-                        <div>
-                          {e.commant < 1000 ? (
-                            <div className="flex items-center space-x-2 text-nowrap">
-                              <FaCommentDots className="text-green-600" />
-                              <p className="flex items-center">
-                                <span>{e.commant}</span>
-                                <span className="lg:block hidden">
-                                  Comments
-                                </span>{" "}
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="flex items-center space-x-2 text-nowrap">
-                              <FaCommentDots className="text-green-600" />
-                              <p className="flex items-center">
-                                <span>{(e.commant / 1000).toFixed(1)}</span>
-                                <span className="lg:block hidden">
-                                  Comments
-                                </span>{" "}
-                              </p>
-                            </div>
-                          )}
-                        </div>
+                        </button>
                       </div>
 
                       <div className="">
@@ -468,9 +397,9 @@ const ManageNews = () => {
                       </div>
                     </div>
                   </div>
-                </Link>
+                </li>
               ))}
-          </div>
+          </ul>
         </div>
       ) : (
         <FullPageLoader />

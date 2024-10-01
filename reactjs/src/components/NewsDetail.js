@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaThumbsUp, FaThumbsDown, FaCommentDots } from "react-icons/fa";
+// import { FaThumbsUp, FaThumbsDown, FaCommentDots } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoPencil } from "react-icons/io5";
@@ -23,12 +23,17 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
 
           <div className="md:flex md:space-x-4 space-y-4 md:space-y-0 md:*:w-6/12">
             <div>
-              <div className="overflow-hidden h-64 flex items-center">
+              <div className="overflow-hidden h-64 flex items-center relative">
                 <img
                   className="object-cover h-full shadow-md"
                   src={`${data.photo}`}
                   alt=""
                 />
+                {data.breakingnews===1 && (
+                  <div className="text-sm absolute rounded-bl-md right-0 top-0 bg-orange-600 text-white font-semibold px-2 py-1 capitalize">
+                    breaking news
+                  </div>
+                )}
               </div>
 
               <div className="mt-5 space-x-4 flex items-center font-semibold select-none">
@@ -78,9 +83,9 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
 
               <div className="text-gray-700 my-1.5 space-y-0.5">
                 <div className="">{data.trending ? <p>Tranding</p> : ""}</div>
-                <div className="">
+                {/* <div className="">
                   {data.breakingnews ? <p>Breaking News</p> : ""}
-                </div>
+                </div> */}
               </div>
 
               <div className="flex md:flex-row flex-col space-y-3 md:space-y-0 md:justify-between md:items-center text-gray-600 text-sm">

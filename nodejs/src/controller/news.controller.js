@@ -78,6 +78,16 @@ const getAll = async (req, res) => {
   }
 };
 
+
+const usergetAll = async (req, res) => {
+  try {
+    const news = await newsmodel.find({ isVisible: 1 });
+    res.json({ news: news, status: 200 });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getOne = async (req, res) => {
   try {
     const id = req.params.id;
@@ -185,4 +195,5 @@ module.exports = {
   getOne,
   create,
   updateIsVisible,
+  usergetAll,
 };
