@@ -345,7 +345,7 @@ const ManageNews = () => {
                         alt={e.title}
                       />
                     </div>
-                    {e.breakingnews && (
+                    {e.breakingnews===1 && (
                       <div className=" absolute top-0 rounded-bl-lg shadow-lg right-0 bg-orange-600 text-white font-semibold px-2 py-1 capitalize">
                         breaking news
                       </div>
