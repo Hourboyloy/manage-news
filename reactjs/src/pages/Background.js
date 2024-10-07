@@ -17,7 +17,7 @@ function Background() {
         "https://manage-news-server134.vercel.app/background-getAll"
       );
       if (response.status === 200) {
-        setBG(response.data);
+        setBG(response.data.reverse());
       }
     } catch (error) {
       alert("Error: Can't access data");

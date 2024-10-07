@@ -56,7 +56,7 @@ const ManageNews = () => {
   const handleFetchData = async () => {
     try {
       const response = await axios.get("https://manage-news-server134.vercel.app/get-all");
-      setFecthData(response.data.news);
+      setFecthData(response.data.news.reverse());
       if (response.data.status === 200) {
         setToggleLoading(true);
       }
