@@ -50,12 +50,12 @@ function App() {
     return <div>Redirecting...</div>;
   }
 
-  const expiresIn = localStorage.getItem("expiresin");
-  if (expiresIn && Date.now() >= Number(expiresIn)) {
-    localStorage.setItem("isLogin", "0");
-    navigate("/login");
-    return <div>Session expired, logging out...</div>; // Exit early
-  }
+ const expiresIn = localStorage.getItem("expiresin");
+ if (expiresIn && Date.now() >= Number(expiresIn)) {
+   localStorage.setItem("isLogin", "0");
+   navigate("/login");
+   return <div>Session expired, logging out...</div>; // Exit early
+ }
 
   const handleToggle = () => {
     setTogglenav(!togglenav);
