@@ -28,7 +28,9 @@ function Background() {
 
   useEffect(() => {
     handleFetchDataBG();
+  }, []);
 
+  useEffect(() => {
     if (background && background.length > 0) {
       const selectedBackground = background.filter((e) => e.seted);
       if (selectedBackground.length > 0) {
