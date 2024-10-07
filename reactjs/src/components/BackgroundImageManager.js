@@ -51,7 +51,7 @@ const BackgroundImageManager = ({
                   >
                     Seted
                   </button>
-                ) : e.seted ? (
+                ) : e.seted && id_bg()==="" ? (
                   <button
                     className={`absolute top-2 bg-green-600 left-2 text-white text-sm px-3 py-1 rounded-md focus:outline-none select-none`}
                   >
