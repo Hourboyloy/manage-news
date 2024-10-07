@@ -33,13 +33,13 @@ const Header = ({ handleToggle, togglenav }) => {
         </button>
 
         <div className="relative group">
-          <Link to={"/account"} className="focus:outline-none">
+          <div>
             <img
               className="w-8 h-8 rounded-full"
               src="https://i.pravatar.cc/300"
               alt="User Avatar"
             />
-          </Link>
+          </div>
 
           <div className="absolute right-0 w-48 bg-white border rounded-md shadow-lg py-1 hidden group-hover:block">
             <a
