@@ -38,7 +38,7 @@ function Background() {
         );
       }
     }
-  }, [background, handleFetchDataBG]);
+  }, [background]);
 
   const handleSetImageById = async (imageId) => {
     try {
