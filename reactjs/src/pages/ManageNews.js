@@ -178,7 +178,7 @@ const ManageNews = () => {
         </div> */}
 
             <div
-              className={`md:flex hidden items-center space-x-3 text-xl ${
+              className={`lg:flex hidden items-center space-x-3 text-xl ${
                 FecthData.length > 0 ? "" : "overflow-hidden w-0 h-0"
               }`}
             >
