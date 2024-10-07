@@ -44,7 +44,7 @@ function Background() {
       );
       if (responseSetbg.data.message === "set background successfuly") {
         alert("Background set successfully");
-        handleFetchDataBG();
+        // handleFetchDataBG();
         localStorage.setItem(
           "background",
           JSON.stringify(responseSetbg.data.updatedDocument)
