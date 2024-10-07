@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import BackgroundImageManager from "../components/BackgroundImageManager";
 import { useNavigate } from "react-router-dom";
 import FullPageLoader from "../components/FullPageLoader";
+import { id_bg } from "../components/ID_BG";
 
 function Background() {
   const [isLoader, setLoader] = useState(false);
@@ -38,6 +39,21 @@ function Background() {
           "background",
           JSON.stringify(selectedBackground[0]) // Storing the first matching element
         );
+      }
+      else{
+        localStorage.setItem(
+          "background",
+          JSON.stringify({
+            _id: "67038645acf47da05c70387",
+            bgurl:
+              "https://res.cloudinary.com/doathl3dp/image/upload/v1728284228/duvozzy3fejlwdnnqpy3",
+            seted: false,
+            cloadinary_id: "duvozzy3fejlwdnnqpy3",
+            createdAt: "2023-10-07T06:57:09.062Z",
+            __v: 0,
+          })
+        );
+          
       }
     }
   }, [background]);
@@ -83,7 +99,23 @@ function Background() {
       );
       if (response.status === 200) {
         alert("Image deleted successfully");
-        handleFetchDataBG(); // Refresh data after deletion
+        if (imageId===id_bg()) {
+          localStorage.setItem(
+            "background",
+            JSON.stringify({
+              _id: "67038645acf47da05c70387",
+              bgurl:
+                "https://res.cloudinary.com/doathl3dp/image/upload/v1728284228/duvozzy3fejlwdnnqpy3",
+              seted: false,
+              cloadinary_id: "duvozzy3fejlwdnnqpy3",
+              createdAt: "2023-10-07T06:57:09.062Z",
+              __v: 0,
+            })
+          );
+          navigate("/background");
+        }
+
+        handleFetchDataBG();
       }
     } catch (error) {
       alert("Error deleting image");
