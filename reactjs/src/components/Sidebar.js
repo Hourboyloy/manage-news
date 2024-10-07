@@ -43,14 +43,15 @@ const Sidebar = ({ handleSetLogin, setDefaultIndexofList }) => {
         <Link
           onClick={setDefaultIndexofList}
           to="/"
-          className="block py-2 px-4 rounded hover:bg-gray-700"
+          className="block py-2 px-4 rounded hover:bg-gray-700 focus:outline-none select-none"
         >
           Dashboard
         </Link>
+
         <Link
           onClick={setDefaultIndexofList}
           to="/news"
-          className="block py-2 px-4 rounded hover:bg-gray-700"
+          className="block py-2 px-4 rounded hover:bg-gray-700 focus:outline-none select-none"
         >
           News
         </Link>
@@ -58,7 +59,7 @@ const Sidebar = ({ handleSetLogin, setDefaultIndexofList }) => {
         <Link
           onClick={setDefaultIndexofList}
           to="/background"
-          className="block py-2 px-4 rounded hover:bg-gray-700"
+          className="block py-2 px-4 rounded hover:bg-gray-700 focus:outline-none select-none"
         >
           Background
         </Link>
@@ -69,7 +70,7 @@ const Sidebar = ({ handleSetLogin, setDefaultIndexofList }) => {
             setDefaultIndexofList();
             handleSetLogin();
           }}
-          className="block py-2 px-4 rounded hover:bg-gray-700"
+          className="block py-2 px-4 rounded hover:bg-gray-700 focus:outline-none select-none"
         >
           Logout
         </Link>

@@ -77,7 +77,7 @@ function App() {
               setDefaultIndexofList();
             }}
             to="/"
-            className="focus:outline-none block py-2 px-4 hover:bg-gray-700"
+            className="focus:outline-none select-none block py-2 px-4 hover:bg-gray-700"
           >
             Dashboard
           </Link>
@@ -87,7 +87,7 @@ function App() {
               setDefaultIndexofList();
             }}
             to="/news"
-            className="focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
+            className="focus:outline-none select-none block py-2 px-4 rounded hover:bg-gray-700"
           >
             News
           </Link>
@@ -97,7 +97,7 @@ function App() {
               setDefaultIndexofList();
             }}
             to="/background"
-            className="focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
+            className="focus:outline-none select-none block py-2 px-4 rounded hover:bg-gray-700"
           >
             Background
           </Link>
@@ -107,7 +107,7 @@ function App() {
               handleSetLogin();
               setDefaultIndexofList();
             }}
-            className="focus:outline-none block py-2 px-4 rounded hover:bg-gray-700"
+            className="focus:outline-none select-none block py-2 px-4 rounded hover:bg-gray-700"
           >
             Logout
           </Link>
