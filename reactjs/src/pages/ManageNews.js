@@ -153,7 +153,7 @@ const ManageNews = () => {
     <div className="">
       {toggleLoading ? (
         <div className="py-6 px-4 md:p-6 max-w-[1180px] mx-auto">
-          <div className=" sticky md:static left-0 md:pl-0 overflow-hidden md:overflow-visible z-10 md:h-auto h-10 top-24 w-full md:w-auto md:flex items-center justify-between pr-2 pb-5">
+          <div className="md:pl-0 overflow-hidden md:overflow-visible z-10 md:h-auto h-10 top-24 w-full md:w-auto md:flex items-center justify-between pr-2 pb-5">
             <div className="flex items-center space-x-2 text-sm md:text-base">
               <p className="font-bold text-white">
                 All News, {FecthData.length} Results
