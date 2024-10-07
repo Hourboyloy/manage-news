@@ -28,7 +28,17 @@ function Background() {
 
   useEffect(() => {
     handleFetchDataBG();
-  }, []);
+
+    if (background && background.length > 0) {
+      const selectedBackground = background.filter((e) => e.seted);
+      if (selectedBackground.length > 0) {
+        localStorage.setItem(
+          "background",
+          JSON.stringify(selectedBackground[0]) // Storing the first matching element
+        );
+      }
+    }
+  }, [background, handleFetchDataBG]);
 
   const handleSetImageById = async (imageId) => {
     try {

@@ -185,12 +185,12 @@ const ManageNews = () => {
               {startData > 0 ? (
                 <button
                   onClick={handlePrev}
-                  className="bg-gray-300 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300"
+                  className="bg-gray-300 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300 focus:outline-none select-none"
                 >
                   <IoIosArrowBack />
                 </button>
               ) : (
-                <button className="bg-gray-200 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300">
+                <button className="bg-gray-200 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300 focus:outline-none select-none">
                   <IoIosArrowBack />
                 </button>
               )}
@@ -201,12 +201,12 @@ const ManageNews = () => {
               {stopData < FecthData.length - 1 ? (
                 <button
                   onClick={handleNext}
-                  className="bg-gray-300 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300"
+                  className="bg-gray-300 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300 focus:outline-none select-none"
                 >
                   <IoIosArrowForward />
                 </button>
               ) : (
-                <button className="bg-gray-200 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300">
+                <button className="bg-gray-200 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300 focus:outline-none select-none">
                   <IoIosArrowForward />
                 </button>
               )}
