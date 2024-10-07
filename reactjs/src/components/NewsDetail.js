@@ -30,7 +30,7 @@ const NewsDetail = ({ data, isExpanded, toggleExpanded, handleDelete, id }) => {
                   alt=""
                 />
                 {data.breakingnews===1 && (
-                  <div className="text-sm absolute rounded-bl-md right-0 top-0 bg-orange-600 text-white font-semibold px-2 py-1 capitalize">
+                  <div className="text-sm absolute rounded-bl-md left-0 top-0 bg-orange-600 text-white font-semibold px-2 py-1 capitalize">
                     breaking news
                   </div>
                 )}
