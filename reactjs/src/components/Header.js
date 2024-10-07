@@ -33,7 +33,7 @@ const Header = ({ handleToggle, togglenav }) => {
         </button>
 
         <div className="relative group">
-          <div>
+          <div className="cursor-pointer">
             <img
               className="w-8 h-8 rounded-full"
               src="https://i.pravatar.cc/300"
