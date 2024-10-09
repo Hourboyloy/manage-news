@@ -10,6 +10,7 @@ export const Admin_access_token = () => {
 };
 
 const NewsForm = ({ lengDiscription, handleLength }) => {
+  const [error, setError] = useState({ photo: false });
   // State to store form data
   const [isLoading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
         [name]: file,
         [`${name}Preview`]: URL.createObjectURL(file),
       });
+      setError({ ...error, photo: false });
     }
   };
 
@@ -53,6 +55,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     });
   };
 
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,18 +67,27 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     dataToSubmit.append("description", formData.description);
     dataToSubmit.append("breakingnews", formData.breakingnews);
     dataToSubmit.append("trending", formData.trending);
+
+    // Validation
+    if (!formData.photo) {
+      setError({ ...error, photo: true });
+      return;
+    }
     if (dataToSubmit) {
       setLoading(true);
     }
     try {
       // Make the POST request with the admin token
-      const response = await fetch("https://manage-news-server134.vercel.app/upload-news", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${Admin_access_token()}`,
-        },
-        body: dataToSubmit,
-      });
+      const response = await fetch(
+        "https://manage-news-server134.vercel.app/upload-news",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${Admin_access_token()}`,
+          },
+          body: dataToSubmit,
+        }
+      );
 
       if (response.ok) {
         // Handle success - clear the form
@@ -189,7 +201,10 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
             />
             <label
               htmlFor="photoInput"
-              className="flex items-center justify-center w-40 h-24 border rounded-md cursor-pointer bg-white bg-opacity-50"
+              // className="flex items-center justify-center w-40 h-24 border rounded-md cursor-pointer bg-white bg-opacity-50"
+              className={`flex items-center justify-center w-40 h-24 border rounded-md cursor-pointer bg-white bg-opacity-50 ${
+                error.photo ? "border border-red-500" : "border-none"
+              }`}
             >
               {formData.photoPreview ? (
                 <div className="relative w-full h-full">
@@ -210,6 +225,10 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
                 <FaImage className="text-gray-400 text-3xl" />
               )}
             </label>
+            {/* Display error if photo is not uploaded */}
+            {error.photo && (
+              <p className="text-red-500 text-sm mt-1">Photo is required.</p>
+            )}
           </div>
         </div>
 

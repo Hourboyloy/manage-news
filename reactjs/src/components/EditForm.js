@@ -22,6 +22,12 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
+    if (formData.title) {
+      setErrors({ ...errors, title: "" });
+    }
+    if (formData.description) {
+      setErrors({ ...errors, description: "" });
+    }
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -40,6 +46,8 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
         [name]: file,
         [`${name}Preview`]: previewUrl,
       });
+
+      setErrors({ ...errors, photo: false });
     }
   };
 
@@ -56,6 +64,8 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
     if (!formData.title) newErrors.title = "Title is required";
     if (!formData.description)
       newErrors.description = "Description is required";
+    if (!formData.photo)
+      newErrors.photo = "Photo is required";
     return newErrors;
   };
 
@@ -227,7 +237,9 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               {!formData.photo && (
                 <label
                   htmlFor="photo"
-                  className="cursor-pointer flex items-center justify-center w-full p-4 border rounded-lg text-black bg-white bg-opacity-50 focus:outline-none transition duration-150 ease-in-out"
+                  className={`${
+                    errors.photo ? "border border-red-500" : "border-none"
+                  } cursor-pointer flex items-center justify-center w-full p-4 border rounded-lg text-black bg-white bg-opacity-50 focus:outline-none transition duration-150 ease-in-out`}
                 >
                   <FiUpload className="text-xl mr-2" />
                   <span>Upload photo</span>
@@ -258,6 +270,11 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
                 </div>
               )}
             </div>
+            {errors.photo && (
+              <p className="text-red-500 text-sm mt-1">
+                <FiAlertCircle className="inline-block mr-1" /> {errors.photo}
+              </p>
+            )}
           </div>
 
           {/* Submit, Clear, and Back Buttons */}

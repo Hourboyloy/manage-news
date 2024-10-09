@@ -5,6 +5,7 @@ const newsmodel = mongoose.Schema({
   title: {
     type: String,
     trim: true,
+    default: null,
   },
   photo: {
     type: String,
