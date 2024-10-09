@@ -34,8 +34,8 @@ user_route(app);
 news_route(app);
 background_route(app);
 
-// cron schedule
-cron.schedule("* * * * *", () => {
+// cron schedule is runing at 5am and 5 pm
+cron.schedule("* 5,17 * *", () => {
   startScrapeData1();
   console.log("CRON job scheduled. Application is running.");
 });
