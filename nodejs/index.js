@@ -1,4 +1,5 @@
 require("dotenv").config();
+const cron = require("node-cron");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -6,15 +7,15 @@ const connection = require("./src/database/connection");
 const user_route = require("./src/route/user.route");
 const news_route = require("./src/route/news.route");
 const background_route = require("./src/route/background.route");
+const startScrapeData1 = require("./src/ScrapedData/scrape1");
 // ====================================================================>
 
 app.use(
   cors({
-    origin:
-    [
+    origin: [
       "https://manage-news-client134.vercel.app",
       "https://news-olive-nine.vercel.app",
-    ] ,
+    ],
     methods: "GET,POST,DELETE,PUT",
   })
 );
@@ -22,7 +23,7 @@ app.use(
 // app.use(cors());
 
 app.get("/", (req, res) => {
-  res.json({ message: "https://manage-news-client134.vercel.app" });
+  res.json({ message: "index file" });
 });
 
 app.use(express.json());
@@ -32,6 +33,12 @@ connection.mymongodb();
 user_route(app);
 news_route(app);
 background_route(app);
+
+// cron schedule
+cron.schedule("* * * * *", () => {
+  startScrapeData1();
+  console.log("CRON job scheduled. Application is running.");
+});
 
 // ====================================================================>
 

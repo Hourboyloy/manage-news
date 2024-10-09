@@ -4,7 +4,6 @@ const newsmodel = mongoose.Schema({
   photoCloudinaryId: { type: String }, // Cloudinary public_id for photo
   title: {
     type: String,
-    required: true,
     trim: true,
   },
   photo: {
@@ -20,10 +19,12 @@ const newsmodel = mongoose.Schema({
   breakingnews: {
     type: Number,
     trim: true,
+    default: 0,
   },
   trending: {
     type: Number,
     trim: true,
+    default: 0,
   },
   isVisible: {
     type: Number,
