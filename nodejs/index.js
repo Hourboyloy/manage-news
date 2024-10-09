@@ -23,7 +23,10 @@ app.use(
 // app.use(cors());
 
 app.get("/", (req, res) => {
-  res.json({ message: "index file" });
+  res.json({ message: cron.schedule("* * * * *", () => {
+  startScrapeData1();
+  console.log("CRON job scheduled. Application is running.");
+}) });
 });
 
 app.use(express.json());
@@ -35,10 +38,10 @@ news_route(app);
 background_route(app);
 
 // cron schedule is runing at 5am and 5 pm
-cron.schedule("* * * * *", () => {
-  startScrapeData1();
-  console.log("CRON job scheduled. Application is running.");
-});
+// cron.schedule("* * * * *", () => {
+//   startScrapeData1();
+//   console.log("CRON job scheduled. Application is running.");
+// });
 
 // ====================================================================>
 
