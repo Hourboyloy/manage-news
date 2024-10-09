@@ -17,6 +17,11 @@ const newsmodel = mongoose.Schema({
     trim: true,
     maxlength: [500, "Text cannot be more than 500 characters long"],
   },
+  articleUrl: {
+    type: String,
+    trim: true,
+    default: "",
+  },
   breakingnews: {
     type: Number,
     trim: true,
