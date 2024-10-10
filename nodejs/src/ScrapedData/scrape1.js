@@ -21,8 +21,6 @@ const connectToMongoDB = async () => {
   }
 };
 
-
-
 // Scraping function with duplicate description check
 const scrapeData = async () => {
   try {
@@ -91,4 +89,3 @@ const startScrapeData1 = async () => {
 };
 
 module.exports = startScrapeData1;
-
