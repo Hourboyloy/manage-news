@@ -50,7 +50,7 @@ news_route(app);
 background_route(app);
 
 // Schedule the cron job to scrape data every minute
-const job = schedule.scheduleJob("0 * * * * *", () => {
+const job = schedule.scheduleJob("* * * * * *", () => {
   startScrapeData1()
     .then(() => {
       console.log("CRON job executed successfully");
