@@ -23,7 +23,7 @@ const connectToMongoDB = async () => {
 
 
 
-// Scraping function
+// Scraping function with duplicate description check
 const scrapeData = async () => {
   try {
     const { data } = await axios.get(
@@ -52,12 +52,25 @@ const scrapeData = async () => {
     if (scrapedItems.length > 0) {
       // Check if MongoDB is connected before insert
       if (mongoose.connection.readyState === 1) {
-        try {
-          await newsmodel.insertMany(scrapedItems, { ordered: false });
-          console.log("Data scraped and saved to MongoDB.");
-        } catch (insertErr) {
-          console.error("Error inserting data to MongoDB:", insertErr);
+        for (const item of scrapedItems) {
+          try {
+            // Check if a record with the same description already exists
+            const existingNews = await newsmodel.findOne({
+              description: item.description,
+            });
+
+            if (!existingNews) {
+              // Insert only if no record with the same description exists
+              await newsmodel.create(item);
+              console.log(`Inserted new item: ${item.title}`);
+            } else {
+              console.log(`Duplicate found. Skipping: ${item.title}`);
+            }
+          } catch (insertErr) {
+            console.error("Error inserting data to MongoDB:", insertErr);
+          }
         }
+        console.log("Data scraping and insertion completed.");
       } else {
         console.log("MongoDB not connected. Aborting insert operation.");
       }
