@@ -31,24 +31,26 @@ app.get("/scrape-data", (req, res) => {
   startScrapeData1()
     .then(() => {
       console.log("CRON job executed successfully");
+      res.json({ message: "Scrape data process started successfully." });
     })
     .catch((error) => {
       console.error("Error executing cron job:", error);
+      res.status(500).json({ error: "Error executing cron job." });
     });
-  res.json({ message: "Scrape data process started." });
 });
 
 // Middleware and routes
 app.use(express.json());
 app.use("/assets", express.static("assets"));
 app.use("/bgimg", express.static("bgimg"));
+
 connection.mymongodb();
 user_route(app);
 news_route(app);
 background_route(app);
 
-// Schedule the cron job to scrape data at specific times
-const job = schedule.scheduleJob("* * * * * *", () => {
+// Schedule the cron job to scrape data every minute
+const job = schedule.scheduleJob("*/1 * * * *", () => {
   startScrapeData1()
     .then(() => {
       console.log("CRON job executed successfully");
@@ -59,6 +61,7 @@ const job = schedule.scheduleJob("* * * * * *", () => {
 });
 
 // Start the server
-app.listen(process.env.PORT_LESTION, () => {
-  console.log(`Listening on port ${process.env.PORT_LESTION}`);
+const PORT = process.env.PORT_LISTEN;
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
