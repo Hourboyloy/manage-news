@@ -28,8 +28,13 @@ app.get("/", (req, res) => {
 
 // API endpoint to manually trigger data scraping
 app.get("/scrape-data", (req, res) => {
-  startScrapeData1();
-  console.log("Scrape data triggered.");
+ startScrapeData1()
+   .then(() => {
+     console.log("CRON job executed successfully");
+   })
+   .catch((error) => {
+     console.error("Error executing cron job:", error);
+   });
   res.json({ message: "Scrape data process started." });
 });
 
