@@ -50,7 +50,7 @@ news_route(app);
 background_route(app);
 
 // Schedule the cron job to scrape data every minute
-const job = schedule.scheduleJob("0-59 12 * * *", () => {
+const job = schedule.scheduleJob("* 12,5 * * *", () => {
   startScrapeData1()
     .then(() => {
       console.log("CRON job executed successfully");
@@ -63,5 +63,5 @@ const job = schedule.scheduleJob("0-59 12 * * *", () => {
 // Start the server
 const PORT = process.env.PORT_LISTEN;
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Listening`);
 });
