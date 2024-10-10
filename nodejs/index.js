@@ -47,16 +47,6 @@ user_route(app);
 news_route(app);
 background_route(app);
 
-// cron.schedule("* * * * *", () => {
-//   startScrapeData1()
-//     .then(() => {
-//       console.log("CRON job executed successfully at 5 AM and 5 PM.");
-//     })
-//     .catch((error) => {
-//       console.error("Error executing cron job:", error);
-//     });
-// });
-
 // Schedule the cron job to scrape data at specific times
 const job = schedule.scheduleJob("* * * * * *", () => {
   startScrapeData1()
