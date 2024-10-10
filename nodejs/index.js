@@ -1,5 +1,5 @@
 require("dotenv").config();
-const cron = require("node-cron");
+const schedule = require("node-schedule");
 const express = require("express");
 const cors = require("cors");
 const connection = require("./src/database/connection");
@@ -28,13 +28,13 @@ app.get("/", (req, res) => {
 
 // API endpoint to manually trigger data scraping
 app.get("/scrape-data", (req, res) => {
- startScrapeData1()
-   .then(() => {
-     console.log("CRON job executed successfully");
-   })
-   .catch((error) => {
-     console.error("Error executing cron job:", error);
-   });
+  startScrapeData1()
+    .then(() => {
+      console.log("CRON job executed successfully");
+    })
+    .catch((error) => {
+      console.error("Error executing cron job:", error);
+    });
   res.json({ message: "Scrape data process started." });
 });
 
@@ -47,11 +47,21 @@ user_route(app);
 news_route(app);
 background_route(app);
 
+// cron.schedule("* * * * *", () => {
+//   startScrapeData1()
+//     .then(() => {
+//       console.log("CRON job executed successfully at 5 AM and 5 PM.");
+//     })
+//     .catch((error) => {
+//       console.error("Error executing cron job:", error);
+//     });
+// });
+
 // Schedule the cron job to scrape data at specific times
-cron.schedule("* * * * *", () => {
+const job = schedule.scheduleJob("* * * * * *", () => {
   startScrapeData1()
     .then(() => {
-      console.log("CRON job executed successfully at 5 AM and 5 PM.");
+      console.log("CRON job executed successfully");
     })
     .catch((error) => {
       console.error("Error executing cron job:", error);
