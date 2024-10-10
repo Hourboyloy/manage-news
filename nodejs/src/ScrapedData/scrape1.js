@@ -3,6 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const mongoose = require("mongoose");
 const newsmodel = require("../modeling/news");
+const fs = require("fs");
 
 // Function to connect to MongoDB
 const connectToMongoDB = async () => {
@@ -22,6 +23,8 @@ const connectToMongoDB = async () => {
 };
 
 // Scraping function with duplicate description check
+
+// Scraping function with enhanced duplicate logging
 const scrapeData = async () => {
   try {
     const { data } = await axios.get(
@@ -30,6 +33,7 @@ const scrapeData = async () => {
 
     const $ = cheerio.load(data);
     const scrapedItems = [];
+    const duplicateLog = []; // Collect duplicate titles
 
     $(".m-item-list-article").each((index, element) => {
       const title = $(element).find(".a-tag span").text().trim();
@@ -63,12 +67,21 @@ const scrapeData = async () => {
               console.log(`Inserted new item: ${item.title}`);
             } else {
               console.log(`Duplicate found. Skipping: ${item.title}`);
+              duplicateLog.push(
+                `Duplicate: ${item.title} | Description: ${item.description}`
+              );
             }
           } catch (insertErr) {
             console.error("Error inserting data to MongoDB:", insertErr);
           }
         }
         console.log("Data scraping and insertion completed.");
+
+        // Write duplicate log to file
+        if (duplicateLog.length > 0) {
+          fs.appendFileSync("duplicateLog.txt", duplicateLog.join("\n") + "\n");
+          console.log("Duplicate items logged to duplicateLog.txt");
+        }
       } else {
         console.log("MongoDB not connected. Aborting insert operation.");
       }
