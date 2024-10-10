@@ -48,7 +48,7 @@ news_route(app);
 background_route(app);
 
 // Schedule the cron job to scrape data at specific times
-cron.schedule("0 5,17 * * *", () => {
+cron.schedule("* * * * *", () => {
   startScrapeData1()
     .then(() => {
       console.log("CRON job executed successfully at 5 AM and 5 PM.");
