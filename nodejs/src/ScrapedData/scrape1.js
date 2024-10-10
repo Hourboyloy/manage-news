@@ -78,3 +78,4 @@ const startScrapeData1 = async () => {
 };
 
 module.exports = startScrapeData1;
+
