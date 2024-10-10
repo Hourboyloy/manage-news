@@ -3,7 +3,6 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const mongoose = require("mongoose");
 const newsmodel = require("../modeling/news");
-const fs = require("fs");
 
 // Function to connect to MongoDB
 const connectToMongoDB = async () => {
@@ -11,8 +10,8 @@ const connectToMongoDB = async () => {
     await mongoose.connect(process.env.URL_DATABSE, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 60000, // 60 seconds timeout
-      socketTimeoutMS: 90000, // 90 seconds timeout
+      serverSelectionTimeoutMS: 250000, // 60 seconds timeout
+      socketTimeoutMS: 250000, // 90 seconds timeout
     });
     console.log("MongoDB connected successfully.");
     return true;
@@ -22,9 +21,7 @@ const connectToMongoDB = async () => {
   }
 };
 
-// Scraping function with duplicate description check
-
-// Scraping function with enhanced duplicate logging
+// Scraping function with duplicate check
 const scrapeData = async () => {
   try {
     const { data } = await axios.get(
@@ -33,7 +30,15 @@ const scrapeData = async () => {
 
     const $ = cheerio.load(data);
     const scrapedItems = [];
-    const duplicateLog = []; // Collect duplicate titles
+
+    // Step 1: Fetch existing descriptions from MongoDB
+    const existingNewsDescriptions = await newsmodel.find(
+      {},
+      { description: 1 }
+    );
+    const existingDescriptionsSet = new Set(
+      existingNewsDescriptions.map((item) => item.description)
+    );
 
     $(".m-item-list-article").each((index, element) => {
       const title = $(element).find(".a-tag span").text().trim();
@@ -47,46 +52,29 @@ const scrapeData = async () => {
         $(element).find("source").attr("srcset") ||
         ""; // handle if neither is available
 
-      // Push the scraped data into the array
-      scrapedItems.push({ title, description, articleUrl: fullUrl, photo });
+      // Step 2: Check for duplicates before pushing to the array
+      if (!existingDescriptionsSet.has(description)) {
+        scrapedItems.push({ title, description, articleUrl: fullUrl, photo });
+      } else {
+        console.log(`Duplicate found. Skipping: ${title}`);
+      }
     });
 
+    // Step 3: Insert new items into MongoDB if any
     if (scrapedItems.length > 0) {
       // Check if MongoDB is connected before insert
       if (mongoose.connection.readyState === 1) {
-        for (const item of scrapedItems) {
-          try {
-            // Check if a record with the same description already exists
-            const existingNews = await newsmodel.findOne({
-              description: item.description,
-            });
-
-            if (!existingNews) {
-              // Insert only if no record with the same description exists
-              await newsmodel.create(item);
-              console.log(`Inserted new item: ${item.title}`);
-            } else {
-              console.log(`Duplicate found. Skipping: ${item.title}`);
-              duplicateLog.push(
-                `Duplicate: ${item.title} | Description: ${item.description}`
-              );
-            }
-          } catch (insertErr) {
-            console.error("Error inserting data to MongoDB:", insertErr);
-          }
-        }
-        console.log("Data scraping and insertion completed.");
-
-        // Write duplicate log to file
-        if (duplicateLog.length > 0) {
-          fs.appendFileSync("duplicateLog.txt", duplicateLog.join("\n") + "\n");
-          console.log("Duplicate items logged to duplicateLog.txt");
+        try {
+          await newsmodel.insertMany(scrapedItems, { ordered: false });
+          console.log("Data scraped and saved to MongoDB.");
+        } catch (insertErr) {
+          console.error("Error inserting data to MongoDB:", insertErr);
         }
       } else {
         console.log("MongoDB not connected. Aborting insert operation.");
       }
     } else {
-      console.log("No data found to scrape.");
+      console.log("No new data found to scrape.");
     }
   } catch (err) {
     console.error("Error scraping website:", err);
