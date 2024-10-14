@@ -156,7 +156,7 @@ const ManageNews = () => {
           <div className="md:pl-0 overflow-hidden md:overflow-visible z-10 md:h-auto h-10 top-24 w-full md:w-auto md:flex items-center justify-between pr-2 pb-5">
             <div className="flex items-center space-x-2 text-sm md:text-base">
               <p className="font-bold text-white">
-                All News, {FecthData.length} Results
+                All News, {FecthData?.length} Results
               </p>
               <Link
                 to={`/upload`}
@@ -168,7 +168,7 @@ const ManageNews = () => {
 
             <div
               className={`lg:flex hidden items-center space-x-3 text-xl ${
-                FecthData.length > 0 ? "" : "overflow-hidden w-0 h-0"
+                FecthData?.length > 0 ? "" : "overflow-hidden w-0 h-0"
               }`}
             >
               {startData > 0 ? (
@@ -187,7 +187,7 @@ const ManageNews = () => {
                 {listIndex}
               </button>
 
-              {stopData < FecthData.length - 1 ? (
+              {stopData < FecthData?.length - 1 ? (
                 <button
                   onClick={handleNext}
                   className="bg-gray-300 md:h-[36px] md:w-[36px] h-[32px] w-[32px] flex items-center justify-center rounded-full text-gray-500 transition-all duration-300 focus:outline-none select-none"
@@ -204,7 +204,7 @@ const ManageNews = () => {
 
           <div
             className={`py-5 hidden lg:block bg-gray-200 rounded shadow bg-opacity-70 transition-all duration-300 ${
-              FecthData.length > 0 ? "" : " overflow-hidden w-0 h-0"
+              FecthData?.length > 0 ? "" : " overflow-hidden w-0 h-0"
             }`}
           >
             <div>
@@ -237,7 +237,7 @@ const ManageNews = () => {
                       <p className="flex-wrap capitalize text-sm">
                         {e.title === "" ? (
                           "Null"
-                        ) : e.title.length > 50 ? (
+                        ) : e.title?.length > 50 ? (
                           <span>{e.title.slice(0, 49)}...</span> // Replaced <p> with <span>
                         ) : (
                           e.title
@@ -247,7 +247,7 @@ const ManageNews = () => {
                       <div className="col col-span-1 text-xs">
                         {e.description === "" ? (
                           "Null"
-                        ) : e.description.length > 50 ? (
+                        ) : e.description?.length > 50 ? (
                           <span>{e.description.slice(0, 49)}...</span> // Replaced <p> with <span>
                         ) : (
                           e.description
@@ -362,7 +362,7 @@ const ManageNews = () => {
                       </div>
 
                       <div className="text-gray-700 mt-2 truncate text-wrap">
-                        {e.title.length > 100
+                        {e.title?.length > 100
                           ? `${e.title.slice(0, 140)}...`
                           : e.title}
                       </div>
