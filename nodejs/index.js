@@ -7,6 +7,8 @@ const user_route = require("./src/route/user.route");
 const news_route = require("./src/route/news.route");
 const background_route = require("./src/route/background.route");
 const ScrapingDataFromOtherWebsite = require("./src/route/scrapData.route");
+const Categories = require("./src/route/categories.route");
+
 const startScrapeDataFromRFI = require("./src/ScrapedData/scrapeFromRFI");
 const startScrapeDataFromKhmerNoteTechnology = require("./src/ScrapedData/khmernoteTechnology");
 const startScrapeDataFromKhmerNoteInternational = require("./src/ScrapedData/khmernoteInternational");
@@ -56,8 +58,8 @@ connection.mymongodb();
 user_route(app);
 news_route(app);
 background_route(app);
+Categories(app);
 ScrapingDataFromOtherWebsite(app);
-
 
 // Schedule the cron job to scrape data every minute
 const job = schedule.scheduleJob("* 5,12,17,22 * * *", () => {

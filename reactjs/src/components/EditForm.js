@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiUpload, FiTrash2, FiAlertCircle, FiArrowLeft } from "react-icons/fi";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -22,6 +22,22 @@ const EditForm = ({ id, handleLength, lengDiscription, news }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+
+   useEffect(() => {
+     axios
+       .get("https://manage-news-server134.vercel.app/get-categories")
+       .then((response) => {
+         if (response.data.status === 200) {
+           setCategories(response.data.categories);
+         }
+       })
+       .catch((err) => {
+         console.log(err.message);
+       });
+   }, []);
+
 
   const handleChange = (e) => {
     if (formData.title) {
@@ -226,10 +242,16 @@ const EditForm = ({ id, handleLength, lengDiscription, news }) => {
               onChange={handleChange}
               className="mt-1 block w-full p-3 text-sm border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             >
-              <option value="កម្ពុជា">កម្ពុជា</option>
-              <option value="sport">Sport</option>
-              <option value="technology">Technology</option>
-              <option value="health">Health</option>
+              <option value="">Choose</option>
+              {categories?.length > 0 &&
+                categories.map(
+                  (e, i) =>
+                    e.name !== "" && (
+                      <option key={e + i} value={e.name}>
+                        {e.name}
+                      </option>
+                    )
+                )}
             </select>
           </div>
 

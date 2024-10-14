@@ -150,7 +150,6 @@ function App() {
           <Outlet />
         </main>
       </div>
-
     </div>
   );
 }
