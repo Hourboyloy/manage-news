@@ -14,9 +14,6 @@ const deleteNews = async (req, res) => {
     if (news.photoCloudinaryId) {
       await cload.uploader.destroy(news.photoCloudinaryId); // Delete the photo from Cloudinary
     }
-    if (news.logoCloudinaryId) {
-      await cload.uploader.destroy(news.logoCloudinaryId); // Delete the logo from Cloudinary
-    }
 
     // Remove the news from the database
     await newsmodel.findByIdAndDelete(newsId);
@@ -29,7 +26,15 @@ const deleteNews = async (req, res) => {
 const updateNews = async (req, res) => {
   try {
     const newsId = req.params.id;
-    const { title, description, breakingnews, trending, updatedAt } = req.body;
+    const {
+      title,
+      description,
+      breakingnews,
+      trending,
+      updatedAt,
+      articleUrl,
+      category,
+    } = req.body;
 
     // Find the existing news by ID
     const news = await newsmodel.findById(newsId);
@@ -43,6 +48,8 @@ const updateNews = async (req, res) => {
     news.description = description || news.description;
     news.breakingnews = breakingnews || news.breakingnews;
     news.trending = trending || news.trending;
+    news.articleUrl = articleUrl || news.articleUrl;
+    news.category = category || news.category;
     news.updatedAt = updatedAt || news.updatedAt;
 
     // If a new photo is uploaded, remove the old photo and upload the new one to Cloudinary
@@ -72,12 +79,11 @@ const updateNews = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const news = await newsmodel.find();
-    res.json({ news: news,status:200 });
+    res.json({ news: news, status: 200 });
   } catch (error) {
     console.log(error);
   }
 };
-
 
 const usergetAll = async (req, res) => {
   try {
@@ -103,7 +109,7 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { title, description, breakingnews, trending } =
+    const { title, description, breakingnews, trending, articleUrl, category } =
       req.body;
 
     // Check if the title is provided
@@ -117,6 +123,8 @@ const create = async (req, res) => {
       description,
       breakingnews,
       trending,
+      articleUrl,
+      category,
     });
 
     // Check if photo files are uploaded
@@ -134,9 +142,7 @@ const create = async (req, res) => {
       newNews.photo = photoUpload.secure_url; // Storing Cloudinary photo URL
       newNews.photoCloudinaryId = photoUpload.public_id; // Storing photo Cloudinary ID
     } else {
-      return res
-        .status(400)
-        .json({ message: "photo are required!" });
+      return res.status(400).json({ message: "photo are required!" });
     }
 
     // Save the news to the database
@@ -150,7 +156,6 @@ const create = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 const updateIsVisible = async (req, res) => {
   const { id } = req.params; // Get the news item ID from the request parameters
@@ -187,6 +192,17 @@ const updateIsVisible = async (req, res) => {
   }
 };
 
+const fillterCategory = async (req, res) => {
+  const { categoryname } = req.params;
+  const results = await newsmodel.find({ category: categoryname });
+  if (results.length <= 0) {
+    return res.json({ message: "Category " + categoryname + " not found!" });
+  }
+  return res.json({
+    message: "Get category " + categoryname + " successfuly",
+    results,
+  });
+};
 
 module.exports = {
   deleteNews,
@@ -196,4 +212,5 @@ module.exports = {
   create,
   updateIsVisible,
   usergetAll,
+  fillterCategory,
 };

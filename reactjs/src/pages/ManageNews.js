@@ -166,17 +166,6 @@ const ManageNews = () => {
               </Link>
             </div>
 
-            {/* <div className="relative w-[500px]">
-          <input
-            type="search"
-            name="search"
-            // value={searchQuery}
-            // onChange={handleSearchChange}
-            placeholder="Search for news..."
-            className="w-full p-2 border rounded-md focus:outline-none text-gray-600"
-          />
-        </div> */}
-
             <div
               className={`lg:flex hidden items-center space-x-3 text-xl ${
                 FecthData.length > 0 ? "" : "overflow-hidden w-0 h-0"
@@ -224,7 +213,7 @@ const ManageNews = () => {
                 <h2>Photo</h2>
                 <h2>Title</h2>
                 <h2 className="col col-span-1">Description</h2>
-                <h2>Breaking news</h2>
+                <h2>Category</h2>
                 <h2>CreateAt</h2>
                 <h2>Action</h2>
               </div>
@@ -234,36 +223,44 @@ const ManageNews = () => {
                   DataPagenation.map((e, i) => (
                     <li
                       className="py-2 px-3 grid grid-cols-7 gap-10 border-b font-semibold"
-                      key={e._id} // Use _id or another unique key from your data
+                      key={e._id}
                     >
                       <p className="font-semibold text-base">{i + 1 + index}</p>
-                      <div className="w-24 h-14 flex items-center justify-center overflow-hidden">
+                      <div className="w-24 h-12 flex items-center justify-center overflow-hidden">
                         <img
                           className="w-full border"
                           src={`${e.photo}`}
                           alt=""
                         />
                       </div>
-                      <p className="flex-wrap capitalize text-base">
-                        {e.title}
+
+                      <p className="flex-wrap capitalize text-sm">
+                        {e.title === "" ? (
+                          "Null"
+                        ) : e.title.length > 50 ? (
+                          <span>{e.title.slice(0, 49)}...</span> // Replaced <p> with <span>
+                        ) : (
+                          e.title
+                        )}
                       </p>
-                      <div className=" col col-span-1">
-                        {e.description.length > 29 ? (
-                          <p>{e.description.slice(0, 28)}...</p>
+
+                      <div className="col col-span-1 text-xs">
+                        {e.description === "" ? (
+                          "Null"
+                        ) : e.description.length > 50 ? (
+                          <span>{e.description.slice(0, 49)}...</span> // Replaced <p> with <span>
                         ) : (
                           e.description
                         )}
                       </div>
-                      <div>
-                        {e.breakingnews ? (
-                          <p className="">True</p>
-                        ) : (
-                          <p className="">False</p>
-                        )}
+
+                      <div className="text-sm font-semibold">
+                        {e.category === "" ? "Null" : e.category}
                       </div>
-                      <p>{e.createdAt.split("T")[0]}</p>
+
+                      <p className="text-sm">{e.createdAt.split("T")[0]}</p>
+
                       <div className="relative">
-                        {/* Changed the parent from <button> to <div> */}
                         <div className="font-bold text-lg group select-none cursor-pointer">
                           ...
                           <div
@@ -275,7 +272,7 @@ const ManageNews = () => {
                                 className="w-full flex justify-start hover:bg-gray-100 px-2 py-1 items-center space-x-1"
                               >
                                 <FaEye className="text-blue-600" />
-                                <p>Preiew</p>
+                                <p>Preview</p>
                               </Link>
                             </div>
 
@@ -298,6 +295,7 @@ const ManageNews = () => {
                                 <p>Edit</p>
                               </Link>
                             </div>
+
                             <div>
                               <button
                                 onClick={() =>
@@ -332,7 +330,7 @@ const ManageNews = () => {
               FecthData.map((e, i) => (
                 <li
                   key={e._id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                  className="bg-gray-50 rounded-lg shadow-md overflow-hidden"
                 >
                   <Link
                     to={`/details/${e._id}`}
@@ -345,30 +343,34 @@ const ManageNews = () => {
                         alt={e.title}
                       />
                     </div>
-                    {e.breakingnews===1 && (
+                    {e.breakingnews === 1 && (
                       <div className=" absolute top-0 rounded-bl-lg shadow-lg right-0 bg-orange-600 text-white font-semibold px-2 py-1 capitalize">
                         breaking news
                       </div>
                     )}
                   </Link>
 
-                  <div className="p-4">
-                    <div className="mb-2">
-                      <Link
-                        to={`/details/${e._id}`}
-                        className=" focus:outline-none font-semibold truncate capitalize"
-                      >
-                        {e.title}
-                      </Link>
+                  <div className="p-4 relative">
+                    <div>
+                      <div className="mb-2">
+                        <Link
+                          to={`/details/${e._id}`}
+                          className=" focus:outline-none font-semibold capitalize"
+                        >
+                          {e.category === "" ? "Null" : e.category}
+                        </Link>
+                      </div>
+
+                      <div className="text-gray-700 mt-2 truncate text-wrap">
+                        {e.title.length > 100
+                          ? `${e.title.slice(0, 140)}...`
+                          : e.title}
+                      </div>
+
+                      <p className="text-gray-500 text-sm mt-2">
+                        {e.createdAt.split("T")[0]}
+                      </p>
                     </div>
-                    <p className="text-gray-700 mt-2 truncate text-wrap">
-                      {e.description.length > 100
-                        ? `${e.description.slice(0, 140)}...`
-                        : e.description}
-                    </p>
-                    <p className="text-gray-500 text-sm mt-2">
-                      {e.createdAt.split("T")[0]}
-                    </p>
 
                     <div className="text-gray-600 mt-2 flex items-center justify-between">
                       <div className="pt-1">

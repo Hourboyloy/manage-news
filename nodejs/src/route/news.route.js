@@ -16,14 +16,12 @@ const news_route = (app) => {
     multer_cloudinary.fields([{ name: "photo" }]), // Updated to use multer_cloudinary
     handle.updateNews
   );
-
   app.put("/isvisible/:id", protect_route_admin, handle.updateIsVisible);
-
   app.delete("/remove-news/:id", protect_route_admin, handle.deleteNews);
-
   app.get("/get-all", handle.getAll);
   app.get("/user-get-all", handle.usergetAll);
   app.get("/getone/:id", handle.getOne);
+  app.get("/fillter-category/:categoryname", handle.fillterCategory);
 };
 
 module.exports = news_route;

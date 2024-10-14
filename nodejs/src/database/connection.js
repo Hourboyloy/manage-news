@@ -12,4 +12,26 @@ const mymongodb = async () => {
       process.exit(1);
     }
 };
-module.exports = { mymongodb };
+
+
+
+
+
+
+const connectToMongoDB = async () => {
+  try {
+    await mongoose.connect(process.env.URL_DATABSE, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 250000, // 60 seconds timeout
+      socketTimeoutMS: 250000, // 90 seconds timeout
+    });
+    console.log("MongoDB connected successfully.");
+    return true;
+  } catch (err) {
+    console.error("Error connecting to MongoDB:", err);
+    return false;
+  }
+};
+
+module.exports = { mymongodb, connectToMongoDB };

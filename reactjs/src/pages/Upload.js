@@ -4,11 +4,11 @@ import NewsForm from "../components/NewsForm";
 function Upload() {
   const [lengDiscription, setLengDiscription] = useState(0);
   useEffect(() => {
-    setLengDiscription(500);
+    setLengDiscription(400);
   }, []);
 
   const handleLength = (getValLeng) => {
-    let MaxLeng = 500;
+    let MaxLeng = 400;
     MaxLeng = MaxLeng - getValLeng;
     setLengDiscription(MaxLeng);
   };

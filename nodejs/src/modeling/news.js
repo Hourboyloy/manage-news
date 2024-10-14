@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const newsmodel = mongoose.Schema({
-  photoCloudinaryId: { type: String }, // Cloudinary public_id for photo
+  photoCloudinaryId: { type: String,default:"" }, // Cloudinary public_id for photo
   title: {
     type: String,
     trim: true,
@@ -15,7 +15,11 @@ const newsmodel = mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    maxlength: [500, "Text cannot be more than 500 characters long"],
+    maxlength: [400, "Text cannot be more than 500 characters long"],
+  },
+  category: {
+    type: String,
+    trim: true,
   },
   articleUrl: {
     type: String,

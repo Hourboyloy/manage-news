@@ -1,25 +1,8 @@
-require("dotenv").config();
 const axios = require("axios");
-const cheerio = require("cheerio");
 const mongoose = require("mongoose");
+const cheerio = require("cheerio");
 const newsmodel = require("../modeling/news");
-
-// Function to connect to MongoDB
-const connectToMongoDB = async () => {
-  try {
-    await mongoose.connect(process.env.URL_DATABSE, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 250000, // 60 seconds timeout
-      socketTimeoutMS: 250000, // 90 seconds timeout
-    });
-    console.log("MongoDB connected successfully.");
-    return true;
-  } catch (err) {
-    console.error("Error connecting to MongoDB:", err);
-    return false;
-  }
-};
+const {connectToMongoDB} = require("../database/connection");
 
 // Scraping function with duplicate check
 const scrapeData = async () => {
@@ -31,18 +14,15 @@ const scrapeData = async () => {
     const $ = cheerio.load(data);
     const scrapedItems = [];
 
-    // Step 1: Fetch existing descriptions from MongoDB
-    const existingNewsDescriptions = await newsmodel.find(
-      {},
-      { description: 1 }
-    );
-    const existingDescriptionsSet = new Set(
-      existingNewsDescriptions.map((item) => item.description)
+    // Step 1: Fetch existing title from MongoDB
+    const existingNewstitle = await newsmodel.find({}, { title: 1 });
+    const existingTitlesSet = new Set(
+      existingNewstitle.map((item) => item.title)
     );
 
     $(".m-item-list-article").each((index, element) => {
-      const title = $(element).find(".a-tag span").text().trim();
-      const description = $(element).find(".article__title h2").text().trim();
+      const category = $(element).find(".a-tag span").text().trim();
+      const title = $(element).find(".article__title h2").text().trim();
       const articleUrl = $(element).find("a").attr("href");
       const fullUrl = `https://www.rfi.fr${articleUrl}`;
 
@@ -53,8 +33,14 @@ const scrapeData = async () => {
         ""; // handle if neither is available
 
       // Step 2: Check for duplicates before pushing to the array
-      if (!existingDescriptionsSet.has(description)) {
-        scrapedItems.push({ title, description, articleUrl: fullUrl, photo });
+      if (!existingTitlesSet.has(title)) {
+        scrapedItems.push({
+          title,
+          category,
+          description: "",
+          articleUrl: fullUrl,
+          photo,
+        });
       } else {
         console.log(`Duplicate found. Skipping: ${title}`);
       }
@@ -82,11 +68,11 @@ const scrapeData = async () => {
 };
 
 // Main function to connect to MongoDB and start scraping
-const startScrapeData1 = async () => {
+const startScrapeDataFromRFI = async () => {
   const dbConnected = await connectToMongoDB(); // Connect to MongoDB first
   if (dbConnected) {
     await scrapeData(); // Start scraping only if connected to MongoDB
   }
 };
 
-module.exports = startScrapeData1;
+module.exports = startScrapeDataFromRFI;

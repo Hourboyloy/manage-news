@@ -16,6 +16,8 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
   const [formData, setFormData] = useState({
     title: "",
     photo: null,
+    articleUrl: "",
+    category: "កម្ពុជា",
     photoPreview: null,
     description: "",
     breakingnews: 0,
@@ -55,7 +57,6 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     });
   };
 
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,6 +68,8 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     dataToSubmit.append("description", formData.description);
     dataToSubmit.append("breakingnews", formData.breakingnews);
     dataToSubmit.append("trending", formData.trending);
+    dataToSubmit.append("category", formData.category);
+    dataToSubmit.append("articleUrl", formData.articleUrl);
 
     // Validation
     if (!formData.photo) {
@@ -78,16 +81,13 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
     }
     try {
       // Make the POST request with the admin token
-      const response = await fetch(
-        "https://manage-news-server134.vercel.app/upload-news",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${Admin_access_token()}`,
-          },
-          body: dataToSubmit,
-        }
-      );
+      const response = await fetch("https://manage-news-server134.vercel.app/upload-news", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Admin_access_token()}`,
+        },
+        body: dataToSubmit,
+      });
 
       if (response.ok) {
         // Handle success - clear the form
@@ -95,6 +95,8 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
         setFormData({
           title: "",
           photo: null,
+          articleUrl: "",
+          category: "កម្ពុជា",
           photoPreview: null,
           description: "",
           breakingnews: 0,
@@ -116,35 +118,35 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
   };
 
   return (
-    <div className="w-full md:max-w-[800px] mx-auto md:p-5 p-4 bg-white bg-opacity-50 shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-5 text-gray-800 text-center md:text-start">
+    <div className="w-full md:max-w-[600px] mx-auto md:p-5 p-4 bg-white bg-opacity-50 shadow-lg rounded-lg">
+      <h2 className="text-2xl font-bold mb-5 text-gray-800 text-center md:text-center uppercase">
         News Input Form
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Title */}
         <div>
-          <label className="block font-semibold">Title</label>
+          <label className="block font-semibold text-sm">Title</label>
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
             placeholder="Enter the news title"
-            className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50"
+            className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50 text-sm"
             required
           />
         </div>
 
         {/* Description */}
         <div>
-          <div className=" flex items-center justify-between">
+          <div className=" flex items-center justify-between text-sm">
             <label className="block font-semibold">Description</label>
             <label className="block text-sm font-semibold">
-              {lengDiscription} / 500 characters
+              {lengDiscription} / 400 characters
             </label>
           </div>
           <textarea
-            maxLength={500}
+            maxLength={400}
             name="description"
             value={formData.description}
             onChange={(event) => {
@@ -152,21 +154,39 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
               handleLength(event.target.value.length);
             }}
             placeholder="Enter the news description"
-            className="mt-1 h-20 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50"
+            className="mt-1 h-20 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50 text-sm"
             rows="4"
             required
           ></textarea>
         </div>
 
+        {/* aticle url */}
+        <div>
+          <label className="block font-semibold text-sm">
+            Article Url{" "}
+            <span className="text-xs text-red-700">
+              *This field you can skip.
+            </span>
+          </label>
+          <input
+            type="text"
+            name="articleUrl"
+            value={formData.articleUrl}
+            onChange={handleChange}
+            placeholder="Enter the article url"
+            className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50 text-sm"
+          />
+        </div>
+
         <div className="flex flex-col sm:flex-row sm:space-x-4">
           {/* breakingnews */}
           <div className="w-full sm:w-1/4">
-            <label className="block font-semibold">Breaking News</label>
+            <label className="block font-semibold text-sm">Breaking News</label>
             <select
               name="breakingnews"
               value={formData.breakingnews}
               onChange={handleChange}
-              className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50"
+              className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50 text-sm"
             >
               <option value="0">No</option>
               <option value="1">Yes</option>
@@ -174,15 +194,31 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
           </div>
           {/* Trending */}
           <div className="w-full sm:w-1/4">
-            <label className="block font-semibold">Trending</label>
+            <label className="block font-semibold text-sm">Trending</label>
             <select
               name="trending"
               value={formData.trending}
               onChange={handleChange}
-              className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50"
+              className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50 text-sm"
             >
               <option value="0">No</option>
               <option value="1">Yes</option>
+            </select>
+          </div>
+
+          {/* category */}
+          <div className="w-full sm:w-1/4">
+            <label className="block font-semibold text-sm">Category</label>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="mt-1 block w-full p-2 border rounded-md focus:outline-none text-black bg-white bg-opacity-50 text-sm"
+            >
+              <option value="កម្ពុជា">កម្ពុជា</option>
+              <option value="sport">Sport</option>
+              <option value="technology">Technology</option>
+              <option value="health">Health</option>
             </select>
           </div>
         </div>
@@ -190,7 +226,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
         <div className="flex flex-col md:flex-row md:space-x-4">
           {/* Photo Image */}
           <div className="relative">
-            <label className="block font-semibold">Photo</label>
+            <label className="block font-semibold text-sm">Photo</label>
             <input
               type="file"
               id="photoInput"
@@ -233,10 +269,10 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
         </div>
 
         {/* Submit and Back Buttons */}
-        <div className="flex flex-col sm:flex-row sm:justify-between mt-4 space-y-3 sm:space-y-0">
+        <div className="flex justify-between mt-4">
           {/* Back Button */}
-          <Link to={"/news"} className="w-full sm:w-auto focus:outline-none">
-            <button className=" inline-flex items-center justify-center w-full md:w-auto p-2.5 md:p-4 bg-red-700 hover:bg-red-800 text-white rounded md:rounded-lg focus:outline-none select-none">
+          <Link to={"/news"} className="focus:outline-none">
+            <button className=" inline-flex items-center justify-center w-full md:w-auto p-2.5 md:p-4 bg-red-700 hover:bg-red-800 text-white rounded-lg md:rounded-lg focus:outline-none select-none">
               <FiArrowLeft className="mr-2" />
               Back
             </button>
@@ -245,7 +281,7 @@ const NewsForm = ({ lengDiscription, handleLength }) => {
           {/* Submit Button */}
           <motion.button
             type="submit"
-            className={`md:w-[200.22px] py-3 text-white rounded-lg bg-blue-600 hover:bg-blue-700 select-none focus:outline-none shadow-md transition-transform transform hover:scale-105 ${
+            className={`md:w-[200.22px] w-[180px] py-2.5 text-white rounded-lg bg-blue-600 hover:bg-blue-700 select-none focus:outline-none shadow-md transition-transform transform hover:scale-105 ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}

@@ -4,16 +4,18 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const EditForm = ({ id, handleLength, lengDiscription }) => {
+const EditForm = ({ id, handleLength, lengDiscription, news }) => {
   const navigate = useNavigate();
 
   const initialFormData = {
-    title: "",
-    description: "",
-    breakingnews: 0,
-    trending: 0,
-    photo: null,
-    photoPreview: null,
+    title: news.title,
+    description:" "+news.description,
+    breakingnews: news.breakingnews,
+    category: news.category,
+    articleUrl: news.articleUrl,
+    trending: news.trending,
+    photo: news.photo,
+    photoPreview: news.photo,
     updatedAt: null,
   };
 
@@ -64,8 +66,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
     if (!formData.title) newErrors.title = "Title is required";
     if (!formData.description)
       newErrors.description = "Description is required";
-    if (!formData.photo)
-      newErrors.photo = "Photo is required";
+    if (!formData.photo) newErrors.photo = "Photo is required";
     return newErrors;
   };
 
@@ -115,14 +116,14 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pb-12 pt-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center pb-12 pt-8 px-4 md:px-6 lg:px-8">
       <div className="max-w-xl w-full space-y-8">
         <form
           onSubmit={handleSubmit}
-          className="mt-8 space-y-6 bg-white bg-opacity-50 p-8 shadow-lg rounded-lg"
+          className="mt-8 space-y-6 bg-white bg-opacity-50 px-3 py-5 md:p-6 lg:p-8 shadow-lg rounded-lg"
         >
-          <h2 className="text-3xl font-extrabold text-center text-gray-800 uppercase">
-            Edit Data
+          <h2 className="text-2xl font-bold text-center text-gray-800 uppercase">
+            Edit News
           </h2>
           {/* Title */}
           <div className="relative">
@@ -138,10 +139,10 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               type="text"
               value={formData.title}
               onChange={handleChange}
-              className={`mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 ${
+              className={`mt-1 block w-full p-3 text-sm border focus:outline-none text-black bg-white bg-opacity-50 ${
                 errors.title ? "border-red-500" : "border-gray-300"
               } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
-              placeholder="Enter title"
+              placeholder="Enter new title"
             />
             {errors.title && (
               <p className="text-red-500 text-sm mt-1">
@@ -160,22 +161,22 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
                 Description <span className="text-red-500">*</span>
               </label>
               <label className="block text-sm font-medium text-gray-800">
-                {lengDiscription} / 500 characters
+                {lengDiscription} / 400 characters
               </label>
             </div>
             <textarea
               id="description"
               name="description"
               value={formData.description}
-              maxLength={500}
+              maxLength={400}
               onChange={(event) => {
                 handleChange(event);
                 handleLength(event.target.value.length);
               }}
-              className={`mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 ${
+              className={`mt-1 block w-full h-24 text-sm px-2 py-2 border focus:outline-none text-black bg-white bg-opacity-50 ${
                 errors.description ? "border-red-500" : "border-gray-300"
               } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
-              placeholder="Enter description"
+              placeholder="Enter new description"
             />
             {errors.description && (
               <p className="text-red-500 text-sm mt-1">
@@ -183,6 +184,53 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
                 {errors.description}
               </p>
             )}
+          </div>
+
+          {/* acticle url */}
+          <div className="relative">
+            <label
+              htmlFor="articleUrl"
+              className="block text-sm font-medium text-gray-800"
+            >
+              Article Url{" "}
+              <span className="text-red-600 text-xs">
+                * This field you can skip.
+              </span>
+            </label>
+
+            <input
+              id="articleUrl"
+              name="articleUrl"
+              type="text"
+              value={formData.articleUrl}
+              onChange={handleChange}
+              className={`mt-1 p-3 text-sm block w-full border focus:outline-none text-black bg-white bg-opacity-50 ${
+                errors.articleUrl ? "border-red-500" : "border-gray-300"
+              } rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out`}
+              placeholder="Enter new article url"
+            />
+          </div>
+
+          {/* category */}
+          <div className="relative">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-800"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="mt-1 block w-full p-3 text-sm border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            >
+              <option value="កម្ពុជា">កម្ពុជា</option>
+              <option value="sport">Sport</option>
+              <option value="technology">Technology</option>
+              <option value="health">Health</option>
+            </select>
           </div>
 
           {/* breakingnews */}
@@ -198,7 +246,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               name="breakingnews"
               value={formData.breakingnews}
               onChange={handleChange}
-              className="mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+              className="mt-1 block w-full p-3 text-sm border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             >
               <option value="0">No</option>
               <option value="1">Yes</option>
@@ -218,7 +266,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               name="trending"
               value={formData.trending}
               onChange={handleChange}
-              className="mt-1 block w-full p-4 border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+              className="mt-1 block w-full p-3 text-sm border focus:outline-none text-black bg-white bg-opacity-50 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             >
               <option value="0">No</option>
               <option value="1">Yes</option>
@@ -239,9 +287,9 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
                   htmlFor="photo"
                   className={`${
                     errors.photo ? "border border-red-500" : "border-none"
-                  } cursor-pointer flex items-center justify-center w-full p-4 border rounded-lg text-black bg-white bg-opacity-50 focus:outline-none transition duration-150 ease-in-out`}
+                  } cursor-pointer flex items-center justify-center w-full p-3 text-sm border rounded-lg text-black bg-white bg-opacity-50 focus:outline-none transition duration-150 ease-in-out`}
                 >
-                  <FiUpload className="text-xl mr-2" />
+                  <FiUpload className="text-lg mr-2" />
                   <span>Upload photo</span>
                 </label>
               )}
@@ -283,7 +331,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={handleBack}
-              className="px-6 py-3 bg-gray-600 text-gray-50 rounded-lg shadow-sm focus:outline-none select-none hover:bg-gray-700 transition duration-150 ease-in-out"
+              className="xl:px-6 lg:px-5 md:px-4 px-3.5 py-2.5 bg-gray-600 text-gray-50 rounded-lg shadow-sm focus:outline-none select-none hover:bg-gray-700 transition duration-150 ease-in-out"
             >
               <FiArrowLeft className="inline-block mr-2" />
               Back
@@ -292,7 +340,7 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={handleCancel}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg shadow-sm focus:outline-none select-none hover:bg-red-700 transition duration-150 ease-in-out"
+              className="xl:px-6 lg:px-5 md:px-4 px-3.5 py-2.5 bg-red-600 text-white rounded-lg shadow-sm focus:outline-none select-none hover:bg-red-700 transition duration-150 ease-in-out"
             >
               Clear
             </motion.button>
@@ -300,9 +348,9 @@ const EditForm = ({ id, handleLength, lengDiscription }) => {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-sm focus:outline-none select-none hover:bg-blue-700 transition duration-150 ease-in-out"
+              className="xl:px-6 lg:px-5 md:px-4 px-3.5 py-2.5 bg-blue-600 text-white rounded-lg shadow-sm focus:outline-none select-none hover:bg-blue-700 transition duration-150 ease-in-out"
             >
-              {isSubmitting ? "Submitting..." : "Submit"}
+              {isSubmitting ? "Submiting.." : "Submit"}
             </motion.button>
           </div>
         </form>

@@ -6,7 +6,27 @@ const connection = require("./src/database/connection");
 const user_route = require("./src/route/user.route");
 const news_route = require("./src/route/news.route");
 const background_route = require("./src/route/background.route");
-const startScrapeData1 = require("./src/ScrapedData/scrape1");
+const ScrapingDataFromOtherWebsite = require("./src/route/scrapData.route");
+const startScrapeDataFromRFI = require("./src/ScrapedData/scrapeFromRFI");
+const startScrapeDataFromKhmerNoteTechnology = require("./src/ScrapedData/khmernoteTechnology");
+const startScrapeDataFromKhmerNoteInternational = require("./src/ScrapedData/khmernoteInternational");
+const startScrapeDataFromKhmerNoteInternational2 = require("./src/ScrapedData/khmernoteInternational2");
+const startScrapeDataFromKhmerNoteInternational3 = require("./src/ScrapedData/khmernoteInternational3");
+const startScrapeDataFromKhmerNoteInternational4 = require("./src/ScrapedData/khmernoteInternational4");
+
+const startScrapeDataFromKhmerNoteSport = require("./src/ScrapedData/khmernoteSport1");
+const startScrapeDataFromKhmerNoteSport2 = require("./src/ScrapedData/khmernoteSport2");
+const startScrapeDataFromKhmerNoteSport3 = require("./src/ScrapedData/khmernoteSport3");
+
+const startScrapeDataFromKhmerNoteNational = require("./src/ScrapedData/khmernotenational1");
+const startScrapeDataFromKhmerNoteNational2 = require("./src/ScrapedData/khmernotenational2");
+const startScrapeDataFromKhmerNoteNational3 = require("./src/ScrapedData/khmernotenational3");
+const startScrapeDataFromSabayTechnology1 = require("./src/ScrapedData/sabbyTechnology");
+const startScrapeDataFromSabaySport = require("./src/ScrapedData/SabbySport");
+
+const startScrapeDataFromHealthyCambodia = require("./src/ScrapedData/healthy-cambodia");
+const startScrapeDataFromHealthyCambodia2 = require("./src/ScrapedData/healthy-cambodia2");
+const startScrapeDataFromHealthyCambodia3 = require("./src/ScrapedData/healthy-cambodia3");
 
 const app = express();
 
@@ -17,6 +37,7 @@ app.use(
       "https://manage-news-client134.vercel.app",
       "https://news-olive-nine.vercel.app",
     ],
+    // origin: "*",
     methods: "GET,POST,DELETE,PUT",
   })
 );
@@ -24,19 +45,6 @@ app.use(
 // Basic health check endpoint
 app.get("/", (req, res) => {
   res.json({ message: "Index file" });
-});
-
-// API endpoint to manually trigger data scraping
-app.get("/scrape-data", (req, res) => {
-  startScrapeData1()
-    .then(() => {
-      console.log("CRON job executed successfully");
-      res.json({ message: "Scrape data process started successfully." });
-    })
-    .catch((error) => {
-      console.error("Error executing cron job:", error);
-      res.status(500).json({ error: "Error executing cron job." });
-    });
 });
 
 // Middleware and routes
@@ -48,15 +56,35 @@ connection.mymongodb();
 user_route(app);
 news_route(app);
 background_route(app);
+ScrapingDataFromOtherWebsite(app);
+
 
 // Schedule the cron job to scrape data every minute
-const job = schedule.scheduleJob("* 5,12,17 * * *", () => {
-  startScrapeData1()
+const job = schedule.scheduleJob("* 5,12,17,22 * * *", () => {
+  Promise.all([
+    startScrapeDataFromRFI(),
+    startScrapeDataFromKhmerNoteTechnology(),
+    startScrapeDataFromKhmerNoteInternational(),
+    startScrapeDataFromKhmerNoteInternational2(),
+    startScrapeDataFromKhmerNoteInternational3(),
+    startScrapeDataFromKhmerNoteInternational4(),
+    startScrapeDataFromKhmerNoteNational(),
+    startScrapeDataFromKhmerNoteNational2(),
+    startScrapeDataFromKhmerNoteNational3(),
+    startScrapeDataFromSabayTechnology1(),
+    startScrapeDataFromSabaySport(),
+    startScrapeDataFromKhmerNoteSport(),
+    startScrapeDataFromKhmerNoteSport2(),
+    startScrapeDataFromKhmerNoteSport3(),
+    startScrapeDataFromHealthyCambodia(),
+    startScrapeDataFromHealthyCambodia2(),
+    startScrapeDataFromHealthyCambodia3(),
+  ])
     .then(() => {
-      console.log("CRON job executed successfully");
+      console.log("All CRON jobs executed successfully.");
     })
     .catch((error) => {
-      console.error("Error executing cron job:", error);
+      console.error("Error executing one or more cron jobs:", error);
     });
 });
 

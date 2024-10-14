@@ -1,6 +1,5 @@
 // src/components/Header.js
 import React from "react";
-import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
 const Header = ({ handleToggle, togglenav }) => {
