@@ -62,7 +62,7 @@ Categories(app);
 ScrapingDataFromOtherWebsite(app);
 
 // Schedule the cron job to scrape data every minute
-const job = schedule.scheduleJob("* 20 * * *", () => {
+const job = schedule.scheduleJob("* 5,17 * * *", () => {
   Promise.all([
     startScrapeDataFromRFI(),
     startScrapeDataFromKhmerNoteTechnology(),
