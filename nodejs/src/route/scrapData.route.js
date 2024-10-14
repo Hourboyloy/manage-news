@@ -22,7 +22,7 @@ const startScrapeDataFromHealthyCambodia2 = require("../ScrapedData/healthy-camb
 const startScrapeDataFromHealthyCambodia3 = require("../ScrapedData/healthy-cambodia3");
 
 const ScrapingDataFromOtherWebsite = (app) => {
-  app.get("/scrape-data", protect_route_admin, (req, res) => {
+  app.get("/scrape-data", (req, res) => {
     Promise.all([
       startScrapeDataFromRFI(),
       startScrapeDataFromKhmerNoteTechnology(),
