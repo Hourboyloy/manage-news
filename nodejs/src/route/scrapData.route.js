@@ -1,4 +1,4 @@
-const protect_route_admin = require("../security/protect_route_admin");
+// const protect_route_admin = require("../security/protect_route_admin");
 
 const startScrapeDataFromRFI = require("../ScrapedData/scrapeFromRFI");
 const startScrapeDataFromKhmerNoteTechnology = require("../ScrapedData/khmernoteTechnology");
