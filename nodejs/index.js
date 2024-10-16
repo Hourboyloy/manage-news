@@ -35,14 +35,14 @@ const app = express();
 // Setup CORS policy
 app.use(
   cors({
-    // origin: [
-    //   "https://manage-news-client134.vercel.app",
-    //   "https://news-olive-nine.vercel.app",
-    // ],
-    origin: "*",
+    origin: [
+      "https://manage-news-client134.vercel.app",
+      "https://news-olive-nine.vercel.app",
+    ],
+    // origin: "*",
     methods: "GET,POST,DELETE,PUT",
   })
-);
+);  
 
 // Basic health check endpoint
 app.get("/", (req, res) => {
