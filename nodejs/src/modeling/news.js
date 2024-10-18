@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 
 const newsmodel = mongoose.Schema({
-  photoCloudinaryId: { type: String,default:"" }, // Cloudinary public_id for photo
+  photoCloudinaryId: { type: String, default: "" }, // Cloudinary public_id for photo
   title: {
     type: String,
     trim: true,
+    unique: true,
     default: null,
   },
   photo: {
